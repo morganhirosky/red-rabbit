@@ -197,7 +197,7 @@ const PROJECTS = [
     format:   "trailer",
     year:     "2022",
     title:    "Dead Bugs",
-    desc:     "Three anonymous individuals share intimate reflections of their self-concepts, memories, and defining relationships. Faceless interviews and sentimentally charged locations suggest that identity emanates beyond the individual.",
+    desc:     "Original documentary trailer exploring identity and self-concept through autobiographical narration as an introduction to complete documentary.",
     equipment:"Canon XF300",
     software: "Adobe Premiere Pro",
     embed:    "https://www.youtube.com/embed/6BiXCjKb1Cc",
