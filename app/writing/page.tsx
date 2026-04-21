@@ -18,7 +18,7 @@ const allEntries: Entry[] = [
 function entryId(e: Entry)          { return e.kind === "feature" ? e.data.slug : `senate-${e.index}`; }
 function entryTitle(e: Entry)       { return e.data.title; }
 function entryMeta(e: Entry)        { return e.kind === "feature" ? [e.data.publication, e.data.date].filter(Boolean).join(" · ") : ["Texas Senate", e.data.date].filter(Boolean).join(" · "); }
-function entryKindLabel(e: Entry)   { return e.kind === "feature" ? "feature" : "senate"; }
+function entryKindLabel(e: Entry)   { return e.kind === "feature" ? "culture" : "government"; }
 function entryIsExternal(e: Entry)  { return e.kind === "feature" ? !!e.data.url : true; }
 function entryHref(e: Entry)        { return e.kind === "feature" ? (e.data.url ?? null) : `/senate/${e.data.pdf}`; }
 function entryContent(e: Entry)     { return e.kind === "feature" ? (e.data.content ?? null) : null; }
@@ -83,7 +83,9 @@ export default function WritingArchive() {
         borderBottom: "1px solid rgba(255,255,255,0.08)",
         flexShrink:   0,
       }}>
-        {(["all", "feature", "senate"] as Category[]).map(cat => (
+        {(["all", "feature", "senate"] as Category[]).map(cat => {
+          const label = cat === "feature" ? "culture" : cat === "senate" ? "government" : "all";
+          return (
           <button
             key={cat}
             onClick={() => setFilter(cat)}
@@ -101,9 +103,9 @@ export default function WritingArchive() {
               transition:    "color 0.2s",
             }}
           >
-            {cat}
+            {label}
           </button>
-        ))}
+        );})}
         <span style={{
           marginLeft:    "auto",
           fontSize:      "11px",
