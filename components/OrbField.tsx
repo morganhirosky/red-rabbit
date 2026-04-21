@@ -139,6 +139,11 @@ export default function OrbField() {
   const [textColor, setTextColor] = useState("#ffffff");
   const [isMobile,  setIsMobile]  = useState(false);
 
+  const SCRAMBLE_WORDS = ["morgan", "hirosky"];
+  const [displayChars, setDisplayChars] = useState<string[][]>(
+    SCRAMBLE_WORDS.map(w => w.split(""))
+  );
+
   bgRef.current   = bgColor;
   textRef.current = textColor;
 
@@ -148,6 +153,36 @@ export default function OrbField() {
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
   }, []);
+
+  useEffect(() => {
+    if (!isMobile) return;
+    const SCRAMBLE  = 20;   // ticks of all-random scramble
+    const PER_CHAR  = 5;    // ticks between each char snap
+    const HOLD      = 100;  // ticks to hold the finished name
+    const TOTAL_CHARS = SCRAMBLE_WORDS.reduce((s, w) => s + w.length, 0);
+    const CYCLE     = SCRAMBLE + TOTAL_CHARS * PER_CHAR + HOLD;
+    let tick = 0;
+    const id = setInterval(() => {
+      tick = (tick + 1) % CYCLE;
+      if (tick < SCRAMBLE) {
+        setDisplayChars(SCRAMBLE_WORDS.map(w =>
+          w.split("").map(() => CHARSET[Math.floor(Math.random() * CHARSET.length)]!)
+        ));
+      } else if (tick < SCRAMBLE + TOTAL_CHARS * PER_CHAR) {
+        const revealed = Math.floor((tick - SCRAMBLE) / PER_CHAR);
+        let g = 0;
+        setDisplayChars(SCRAMBLE_WORDS.map(w =>
+          w.split("").map((ch) => {
+            const show = g++ < revealed;
+            return show ? ch : CHARSET[Math.floor(Math.random() * CHARSET.length)]!;
+          })
+        ));
+      } else {
+        setDisplayChars(SCRAMBLE_WORDS.map(w => w.split("")));
+      }
+    }, 55);
+    return () => clearInterval(id);
+  }, [isMobile]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -477,12 +512,11 @@ export default function OrbField() {
           pointerEvents: "none",
           zIndex:        5,
         }}>
-          <div style={{ fontFamily: '"Courier New", monospace', fontSize: "9vw", color: "rgba(255,255,255,0.85)", letterSpacing: "0.15em", lineHeight: 1.3 }}>
-            morgan
-          </div>
-          <div style={{ fontFamily: '"Courier New", monospace', fontSize: "9vw", color: "rgba(255,255,255,0.85)", letterSpacing: "0.15em", lineHeight: 1.3 }}>
-            hirosky
-          </div>
+          {displayChars.map((wordChars, wi) => (
+            <div key={wi} style={{ fontFamily: '"Courier New", monospace', fontSize: "9vw", color: "rgba(255,255,255,0.85)", letterSpacing: "0.15em", lineHeight: 1.3 }}>
+              {wordChars.join("")}
+            </div>
+          ))}
         </div>
       )}
 
