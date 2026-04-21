@@ -6,8 +6,16 @@ import { usePathname } from "next/navigation";
 export default function Cursor() {
   const [pos,      setPos]      = useState({ x: -200, y: -200 });
   const [hovering, setHovering] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const pathname = usePathname();
   const isAbout  = pathname.startsWith("/about");
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => setPos({ x: e.clientX, y: e.clientY });
@@ -22,6 +30,8 @@ export default function Cursor() {
       window.removeEventListener("mouseover", onOver);
     };
   }, []);
+
+  if (isMobile) return null;
 
   return (
     <div style={{
