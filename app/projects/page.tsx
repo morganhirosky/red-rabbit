@@ -190,6 +190,17 @@ const PROJECTS = [
     embed:    "https://www.youtube.com/embed/orgpva2COfY",
   },
   {
+    id:       "04",
+    type:     "brand & web design",
+    format:   "e-commerce",
+    year:     "2024",
+    title:    "SRC Argo",
+    desc:     "Developed original clothing brand from concept through execution, including brand identity, apparel graphics, written copy, and custom e-commerce website with a retro OS aesthetic and hidden artistic subexperiences.",
+    equipment:"Adobe Creative Cloud",
+    software: "Next.js",
+    embed:    null,
+  },
+  {
     id:       "03",
     type:     "independent journalism",
     format:   "photo essay",
