@@ -713,6 +713,7 @@ export default function Projects() {
                             </p>
                             {sub.imagesAfter?.[j] && (() => {
                               const imgData = sub.imagesAfter![j];
+                              if (!imgData || 'layout' in imgData) return null;
                               const crop = imgData.cropTop ?? 0;
                               return (
                                 <div style={{ overflow: "hidden", marginBottom: "24px", borderRadius: "2px", boxShadow: "0 4px 24px rgba(0,0,0,0.5)" }}>
