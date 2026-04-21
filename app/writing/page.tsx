@@ -323,7 +323,7 @@ export default function WritingArchive() {
                 </p>
               )}
 
-              {(activeEntry.kind === "senate" || (activeEntry.kind === "feature" && activeEntry.data.embed)) && href ? (
+              {(activeEntry.kind === "senate" || (activeEntry.kind === "feature" && activeEntry.data.embed && !isMobile)) && href ? (
                 <>
                   {isMobile ? (
                     <a
