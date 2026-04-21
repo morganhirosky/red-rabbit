@@ -371,6 +371,7 @@ export default function WritingArchive() {
                   color:       "rgba(255,255,255,0.75)",
                   whiteSpace:  "pre-wrap",
                   maxWidth:    "560px",
+                  textAlign:   "center",
                 }}>
                   {content}
                 </div>
