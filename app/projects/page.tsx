@@ -402,31 +402,33 @@ export default function Projects() {
         <div ref={rightPaneRef} style={{
           flex:          1,
           overflowY:     "auto",
-          padding:       "48px 32px",
+          padding:       isMobile ? "0" : "48px 32px",
           display:       isMobile && selected === null ? "none" : "flex",
           flexDirection: "column",
           alignItems:    "center",
-          textAlign:     "center",
+          textAlign:     isMobile ? "left" : "center",
           gap:           "0",
         }}>
           {isMobile && selected !== null && (
             <button
               onClick={() => setSelected(null)}
               style={{
-                alignSelf:     "flex-start",
+                width:         "100%",
                 fontFamily:    SANS,
-                fontSize:      "11px",
-                letterSpacing: "0.10em",
+                fontSize:      "12px",
+                letterSpacing: "0.12em",
                 textTransform: "uppercase",
-                color:         "rgba(255,255,255,0.40)",
-                background:    "none",
+                color:         "rgba(255,255,255,0.60)",
+                background:    "rgba(255,255,255,0.05)",
                 border:        "none",
+                borderBottom:  "1px solid rgba(255,255,255,0.08)",
                 cursor:        "default",
-                marginBottom:  "24px",
-                padding:       0,
+                padding:       "16px 24px",
+                textAlign:     "left",
+                flexShrink:    0,
               }}
             >
-              ← back
+              ← back to list
             </button>
           )}
 
@@ -438,6 +440,7 @@ export default function Projects() {
               <span style={{ fontFamily: SANS, fontSize: "clamp(24px, 2.5vw, 40px)", color: "rgba(255,255,255,0.45)", animation: "blink-p 1s step-start infinite", marginLeft: "2px" }}>|</span>
             </div>
           ) : (
+            <div style={{ padding: isMobile ? "24px 20px" : "0", width: "100%", overflowY: isMobile ? "auto" : "visible", flex: 1 }}>
             <div key={animKey} style={{
               position:      "relative",
               width:         "100%",
@@ -801,7 +804,7 @@ export default function Projects() {
                         marginBottom:   "24px",
                         justifyContent: "center",
                       }}>
-                        <h3 style={{ fontFamily: SERIF, fontSize: "18px", fontWeight: "normal", color: "rgba(255,255,255,0.75)", margin: 0, fontStyle: "italic" }}>
+                        <h3 style={{ fontFamily: SERIF, fontSize: "18px", fontWeight: "normal", color: "rgba(255,255,255,0.75)", margin: 0, fontStyle: "italic", textTransform: "uppercase" }}>
                           {sub.title}
                         </h3>
                       </div>
@@ -968,6 +971,7 @@ export default function Projects() {
           )}
 
             </>
+            </div>
             </div>
           )}
 

@@ -211,8 +211,8 @@ export default function WritingArchive() {
         {/* ── Right pane: detail ── */}
         <div style={{
           flex:          1,
-          overflowY:     (activeEntry?.kind === "senate" || (activeEntry?.kind === "feature" && activeEntry.data.embed)) ? "hidden" : "auto",
-          padding:       (activeEntry?.kind === "senate" || (activeEntry?.kind === "feature" && activeEntry.data.embed)) ? "32px 48px" : "64px 72px",
+          overflowY:     (!isMobile && (activeEntry?.kind === "senate" || (activeEntry?.kind === "feature" && activeEntry.data.embed))) ? "hidden" : "auto",
+          padding:       isMobile ? "0" : (activeEntry?.kind === "senate" || (activeEntry?.kind === "feature" && activeEntry.data.embed)) ? "32px 48px" : "64px 72px",
           display:       isMobile && !activeEntry ? "none" : "flex",
           flexDirection: "column",
         }}>
@@ -220,20 +220,22 @@ export default function WritingArchive() {
             <button
               onClick={() => setSelected(null)}
               style={{
-                alignSelf:     "flex-start",
+                width:         "100%",
                 fontFamily:    SANS,
-                fontSize:      "11px",
-                letterSpacing: "0.10em",
+                fontSize:      "12px",
+                letterSpacing: "0.12em",
                 textTransform: "uppercase",
-                color:         "rgba(255,255,255,0.40)",
-                background:    "none",
+                color:         "rgba(255,255,255,0.60)",
+                background:    "rgba(255,255,255,0.05)",
                 border:        "none",
+                borderBottom:  "1px solid rgba(255,255,255,0.08)",
                 cursor:        "default",
-                marginBottom:  "24px",
-                padding:       0,
+                padding:       "16px 24px",
+                textAlign:     "left",
+                flexShrink:    0,
               }}
             >
-              ← back
+              ← back to list
             </button>
           )}
           {!activeEntry ? (
@@ -264,6 +266,7 @@ export default function WritingArchive() {
               </>
             </div>
           ) : (
+            <div style={{ padding: isMobile ? "24px 20px" : "0", flex: 1, overflowY: isMobile ? "auto" : "visible", display: "flex", flexDirection: "column" }}>
             <>
               <div style={{
                 fontSize:      "10px",
@@ -398,6 +401,7 @@ export default function WritingArchive() {
                 );
               })() : null}
             </>
+            </div>
           )}
         </div>
       </div>
