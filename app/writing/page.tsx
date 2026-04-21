@@ -183,7 +183,7 @@ export default function WritingArchive() {
             );
           })}
 
-          {(filter === "all" || filter === "feature") && (
+          {(filter === "all" || filter === "feature" || filter === "senate") && (
             <div style={{
               padding:       "20px 32px",
               borderTop:     "1px solid rgba(255,255,255,0.06)",
