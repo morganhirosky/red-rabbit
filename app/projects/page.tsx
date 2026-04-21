@@ -132,7 +132,7 @@ const SECTIONS: Record<string, { title: string; subtitle?: string; image?: strin
       paragraphs: [],
       subsections: [
         {
-          title: "before the interview",
+          title: "Before the interview",
           imagesAfter: { 3: { src: "/projects/morgan-shed.jpg", cropTop: 160 } },
           paragraphs: [
             "After my hour drive to a relatively pastoral area of north Austin, I arrived at what I assumed to be the wrong place. I had driven into a rural-ish neighborhood about three minutes off I-35, surrounded by autobody shops and strangely spaced single family homes.",
@@ -148,7 +148,7 @@ const SECTIONS: Record<string, { title: string; subtitle?: string; image?: strin
           ],
         },
         {
-          title: "after the interview",
+          title: "After the interview",
           paragraphs: [
             "As we exited the house and entered the warehouse, Mrs. Bui paused and asked, \"Do you smell that?\" I couldn't help but notice the sweet floral scent that filled the air. \"Yes, I do,\" I replied. \"It smells very floral, like flowers.\"",
             "Mrs. Bui was pleased with my response and shared an interesting fact. \"That's what everyone says! That's what human death smells like. So interesting that it's so commonly described that way.\"",
