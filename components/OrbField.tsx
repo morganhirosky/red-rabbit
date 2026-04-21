@@ -120,7 +120,7 @@ function sampleName(W: number, H: number, CW: number): Array<{ x: number; y: num
           if (px < OW && py < OH && data[(py * OW + px) * 4 + 3]! > 128) lit++;
         }
       }
-      if (lit >= 3) {
+      if (lit >= (W < 600 ? 1 : 3)) {
         positions.push({ x: c * CW, y: r * LH + LH * 0.82 });
       }
     }
@@ -148,8 +148,8 @@ export default function OrbField() {
     if (!ctx) return;
 
     const dpr = window.devicePixelRatio || 1;
-    const W = canvas.clientWidth  || window.innerWidth;
-    const H = canvas.clientHeight || window.innerHeight;
+    const W = window.innerWidth;
+    const H = window.innerHeight;
     canvas.width  = W * dpr;
     canvas.height = H * dpr;
     ctx.scale(dpr, dpr);
@@ -240,9 +240,39 @@ export default function OrbField() {
       drag = null;
     };
 
+    const onTouchMove = (e: TouchEvent) => {
+      const t = e.touches[0]; if (!t) return;
+      if (animPhase === "idle") { orbX = t.clientX; orbY = t.clientY; }
+      if (!drag) return;
+      e.preventDefault();
+      const dx = t.clientX - drag.lx, dy = t.clientY - drag.ly;
+      drag.dvx = dx; drag.dvy = dy;
+      drag.lx  = t.clientX; drag.ly = t.clientY;
+      drag.f.x = t.clientX - drag.ox;
+      drag.f.y = t.clientY - drag.oy;
+      drag.f.vx = 0; drag.f.vy = 0;
+      if (Math.abs(dx) + Math.abs(dy) > 3) drag.moved = true;
+    };
+    const onTouchStart = (e: TouchEvent) => {
+      const t = e.touches[0]; if (!t) return;
+      for (const f of floaties) {
+        if (t.clientX >= f.x && t.clientX <= f.x + f.drawW &&
+            t.clientY >= f.y && t.clientY <= f.y + f.drawH) {
+          e.preventDefault();
+          drag = { f, ox: t.clientX - f.x, oy: t.clientY - f.y,
+                   lx: t.clientX, ly: t.clientY, dvx: 0, dvy: 0, moved: false };
+          break;
+        }
+      }
+    };
+    const onTouchEnd = () => onUp();
+
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mousedown", onDown);
     window.addEventListener("mouseup",   onUp);
+    window.addEventListener("touchstart", onTouchStart, { passive: false });
+    window.addEventListener("touchmove",  onTouchMove,  { passive: false });
+    window.addEventListener("touchend",   onTouchEnd);
 
     let raf: number;
 
@@ -411,8 +441,11 @@ export default function OrbField() {
       clearTimeout(t1);
       clearTimeout(t2);
       window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mousedown", onDown);
-      window.removeEventListener("mouseup",   onUp);
+      window.removeEventListener("mousedown",  onDown);
+      window.removeEventListener("mouseup",    onUp);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove",  onTouchMove);
+      window.removeEventListener("touchend",   onTouchEnd);
     };
   }, []);
 
