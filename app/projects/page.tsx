@@ -198,7 +198,9 @@ const PROJECTS = [
     desc:     "Developed original clothing brand from concept through execution, including brand identity, apparel graphics, written copy, and custom e-commerce website with a retro OS aesthetic and hidden artistic subexperiences.",
     equipment:"Adobe Creative Cloud",
     software: "Next.js",
-    embed:    "https://argo-morganhiroskys-projects.vercel.app/",
+    embed:    null,
+    preview:  "/projects/argo-preview.png",
+    previewHref: "https://argo-morganhiroskys-projects.vercel.app/",
   },
   {
     id:       "03",
@@ -443,25 +445,25 @@ export default function Projects() {
 
           {/* ── Project header card ── */}
           <div style={{
-            width:        active.embed ? "100%" : "fit-content",
+            width:        (active.embed || ("preview" in active && active.preview)) ? "100%" : "fit-content",
             border:       "1px solid rgba(255,255,255,0.10)",
             borderRadius: "4px",
             background:   "rgba(255,255,255,0.02)",
             padding:      "32px 40px",
             marginBottom: "40px",
             display:      "flex",
-            flexDirection: active.embed ? "row" : "column",
-            alignItems:   active.embed ? "flex-start" : "center",
-            gap:          active.embed ? "40px" : "0",
+            flexDirection: (active.embed || ("preview" in active && active.preview)) ? "row" : "column",
+            alignItems:   (active.embed || ("preview" in active && active.preview)) ? "flex-start" : "center",
+            gap:          (active.embed || ("preview" in active && active.preview)) ? "40px" : "0",
           }}>
 
             {/* Left: text info */}
             <div style={{
               display:       "flex",
               flexDirection: "column",
-              alignItems:    active.embed ? "flex-start" : "center",
-              flex:          active.embed ? "0 0 auto" : undefined,
-              maxWidth:      active.embed ? "280px" : undefined,
+              alignItems:    (active.embed || ("preview" in active && active.preview)) ? "flex-start" : "center",
+              flex:          (active.embed || ("preview" in active && active.preview)) ? "0 0 auto" : undefined,
+              maxWidth:      (active.embed || ("preview" in active && active.preview)) ? "280px" : undefined,
             }}>
               <div style={{
                 fontSize:      "10px",
@@ -480,7 +482,7 @@ export default function Projects() {
                 lineHeight:      1.05,
                 color:           "#fff",
                 marginBottom:    "6px",
-                textAlign:       active.embed ? "left" : "center",
+                textAlign:       (active.embed || ("preview" in active && active.preview)) ? "left" : "center",
                 textTransform:   "lowercase",
               }}>
                 {active.title}
@@ -510,8 +512,8 @@ export default function Projects() {
                 lineHeight:  1.85,
                 color:       "rgba(255,255,255,0.65)",
                 marginBottom:"24px",
-                textAlign:   active.embed ? "left" : "center",
-                maxWidth:    active.embed ? undefined : "520px",
+                textAlign:   (active.embed || ("preview" in active && active.preview)) ? "left" : "center",
+                maxWidth:    (active.embed || ("preview" in active && active.preview)) ? undefined : "520px",
               }}>
                 {active.desc}
               </p>
@@ -567,6 +569,30 @@ export default function Projects() {
                   style={{ width: "100%", height: "100%", border: "none", display: "block" }}
                 />
               </div>
+            )}
+
+            {/* Right: preview image link */}
+            {"preview" in active && active.preview && (
+              <a
+                href={"previewHref" in active ? active.previewHref : undefined}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  flex:        1,
+                  display:     "block",
+                  overflow:    "hidden",
+                  border:      "1px solid rgba(255,255,255,0.10)",
+                  borderRadius:"2px",
+                  minWidth:    0,
+                  cursor:      "default",
+                }}
+              >
+                <img
+                  src={active.preview}
+                  alt={active.title}
+                  style={{ width: "100%", height: "auto", display: "block" }}
+                />
+              </a>
             )}
 
           </div>
