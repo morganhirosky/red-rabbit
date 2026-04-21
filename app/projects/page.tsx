@@ -18,7 +18,7 @@ type ImgAfterValue = ImgEntry | { layout: "side-by-side"; images: ImgEntry[] };
 const SECTIONS: Record<string, { title: string; subtitle?: string; image?: string; imagesAfter?: Record<number, ImgAfterValue>; video?: string; videoAfter?: number; subsections?: { title: string; paragraphs: string[]; imagesAfter?: Record<number, ImgAfterValue>; footerLink?: { text: string; href: string }; mediaBlock?: MediaBlock }[]; paragraphs: string[] }[]> = {
   "03": [
     {
-      title: "concept origin",
+      title: "Origin",
       paragraphs: [
         "My project concept was dedicated to exploring morticians' perspectives on life, death, birth, religion, spirituality, family, and joy. But my own curiosity extended beyond existentialism and into something far simpler.",
         "I have always considered embalming to be closely related to a doctor performing surgery. Both professions witness things most people never will, and both require the ability either to stomach what they feel or to become desensitized enough to return to their own lives afterward — to leave work and attend their child's piano recital that same evening. However, the doctor's patient wakes up (hopefully), and the mortician's client never will. The burden is death itself: while the doctor fights to keep it at bay, the mortician wakes each day to confront it, on call twenty-four hours a day, seven days a week.",
