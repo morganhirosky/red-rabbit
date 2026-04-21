@@ -412,7 +412,7 @@ export default function WritingArchive() {
                   );
                 };
                 return (
-                  <div style={{ maxWidth: "780px", margin: "0 auto", fontFamily: SERIF, fontSize: "15px", lineHeight: 2, color: "rgba(255,255,255,0.75)" }}>
+                  <div style={{ maxWidth: "780px", margin: "0 auto", fontFamily: SERIF, fontSize: "17px", lineHeight: 2, color: "rgba(255,255,255,0.75)" }}>
                     {topImage && <img src={topImage} style={{ width: "200px", display: "block", borderRadius: "2px", margin: "0 auto 32px" }} />}
                     {paragraphs.map((p, i) => (
                       <React.Fragment key={i}>
