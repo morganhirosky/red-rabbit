@@ -3,6 +3,9 @@
 // For unpublished pieces: set `content` with the full text.
 // `slug` must be unique — it becomes the URL: /writing/feature/[slug]
 
+export type ImgEntry = { src: string; cropTop?: number };
+export type ImgAfterValue = ImgEntry | { layout: "side-by-side"; images: ImgEntry[] };
+
 export type FeatureEntry = {
   slug: string;
   title: string;
@@ -11,8 +14,10 @@ export type FeatureEntry = {
   description?: string;
   url?: string;
   content?: string;
-  embed?: boolean;   // attempt to show url in an iframe preview
-  cropTop?: number;  // pixels to crop from the top of the iframe preview
+  imagesAfter?: Record<number, ImgAfterValue>;
+  topImage?: string;
+  embed?: boolean;
+  cropTop?: number;
 };
 
 export const featureWriting: FeatureEntry[] = [
@@ -21,6 +26,11 @@ export const featureWriting: FeatureEntry[] = [
     title: "The Eighth Grade Boy Wants to See a Dead Body",
     date: "2023",
     description: "A mortician in New Braunfels reflects on curiosity, sacrifice, and what he believes waits on the other side.",
+    topImage: "/projects/jimmy.jpg",
+    imagesAfter: {
+      12: { layout: "side-by-side", images: [{ src: "/projects/pennington-sign.jpg" }, { src: "/projects/pennington-building.jpg" }] },
+      17: { src: "/projects/church.jpg", cropTop: 80 },
+    },
     content: `Mr. Jimmy grew up in New Braunfels, Texas, back when the city was much smaller than it is today. His youth was filled with friends, extracurricular activities, and the kind of small-town familiarity that leaves little room for anonymity. Yet even amid the ordinary rhythms of adolescence, his curiosity was already leaning toward something less ordinary.
 
 I began by asking Jimmy when he first realized he had an interest in mortuary science and how he first entered the industry.

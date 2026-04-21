@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import NavBar from "@/components/NavBar";
-import { featureWriting, technicalWriting, FeatureEntry, TechnicalEntry } from "@/src/data/writing";
+import { featureWriting, technicalWriting, FeatureEntry, TechnicalEntry, ImgAfterValue } from "@/src/data/writing";
 
 type Category = "all" | "feature" | "senate";
 
@@ -363,19 +363,40 @@ export default function WritingArchive() {
                 >
                   Read full piece ↗
                 </a>
-              ) : content ? (
-                <div style={{
-                  fontFamily:  SERIF,
-                  fontSize:    "15px",
-                  lineHeight:  2,
-                  color:       "rgba(255,255,255,0.75)",
-                  whiteSpace:  "pre-wrap",
-                  maxWidth:    "560px",
-                  margin:      "0 auto",
-                }}>
-                  {content}
-                </div>
-              ) : null}
+              ) : content ? (() => {
+                const data = activeEntry.kind === "feature" ? activeEntry.data : null;
+                const topImage = data?.topImage;
+                const imagesAfter = data?.imagesAfter;
+                const paragraphs = content.split("\n\n");
+                const renderImg = (img: ImgAfterValue, key: string) => {
+                  if ("layout" in img && img.layout === "side-by-side") {
+                    return (
+                      <div key={key} style={{ display: "flex", gap: "12px", margin: "32px auto", maxWidth: "560px" }}>
+                        {img.images.map((im, ii) => (
+                          <img key={ii} src={im.src} style={{ flex: 1, width: 0, height: "auto", display: "block", borderRadius: "2px" }} />
+                        ))}
+                      </div>
+                    );
+                  }
+                  const cropTop = "cropTop" in img ? (img.cropTop ?? 0) : 0;
+                  return (
+                    <div key={key} style={{ overflow: "hidden", margin: "32px auto", maxWidth: "560px", borderRadius: "2px" }}>
+                      <img src={img.src} style={{ width: "100%", marginTop: `-${cropTop}px`, display: "block" }} />
+                    </div>
+                  );
+                };
+                return (
+                  <div style={{ maxWidth: "560px", margin: "0 auto", fontFamily: SERIF, fontSize: "15px", lineHeight: 2, color: "rgba(255,255,255,0.75)" }}>
+                    {topImage && <img src={topImage} style={{ width: "100%", display: "block", borderRadius: "2px", marginBottom: "32px" }} />}
+                    {paragraphs.map((p, i) => (
+                      <React.Fragment key={i}>
+                        <p style={{ margin: "0 0 1.5em 0" }}>{p}</p>
+                        {imagesAfter?.[i] && renderImg(imagesAfter[i]!, `img-${i}`)}
+                      </React.Fragment>
+                    ))}
+                  </div>
+                );
+              })() : null}
             </>
           )}
         </div>
