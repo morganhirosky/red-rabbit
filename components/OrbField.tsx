@@ -137,9 +137,17 @@ export default function OrbField() {
 
   const [bgColor,   setBgColor]   = useState("#000000");
   const [textColor, setTextColor] = useState("#ffffff");
+  const [isMobile,  setIsMobile]  = useState(false);
 
   bgRef.current   = bgColor;
   textRef.current = textColor;
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -154,9 +162,11 @@ export default function OrbField() {
     canvas.height = H * dpr;
     ctx.scale(dpr, dpr);
 
+    const mobile = W < 768;
+
     ctx.font  = `${FS}px "Courier New", monospace`;
     const CW  = ctx.measureText("M").width;
-    const homes = sampleName(W, H, CW);
+    const homes = mobile ? [] : sampleName(W, H, CW);
 
     const rand  = seededRand(643294);
     const chars: Char[] = homes.map(({ x: hx, y: hy }) => ({
@@ -455,6 +465,26 @@ export default function OrbField() {
         ref={canvasRef}
         style={{ display: "block", width: "100%", height: "100%", cursor: "none" }}
       />
+
+      {/* Mobile name overlay */}
+      {isMobile && (
+        <div style={{
+          position:      "absolute",
+          top:           "50%",
+          left:          "50%",
+          transform:     "translate(-50%, -50%)",
+          textAlign:     "center",
+          pointerEvents: "none",
+          zIndex:        5,
+        }}>
+          <div style={{ fontFamily: '"Courier New", monospace', fontSize: "9vw", color: "rgba(255,255,255,0.85)", letterSpacing: "0.15em", lineHeight: 1.3 }}>
+            morgan
+          </div>
+          <div style={{ fontFamily: '"Courier New", monospace', fontSize: "9vw", color: "rgba(255,255,255,0.85)", letterSpacing: "0.15em", lineHeight: 1.3 }}>
+            hirosky
+          </div>
+        </div>
+      )}
 
       {/* Color picker widget */}
       <div style={{
