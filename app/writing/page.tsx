@@ -182,6 +182,21 @@ export default function WritingArchive() {
               </div>
             );
           })}
+
+          {(filter === "all" || filter === "feature") && (
+            <div style={{
+              padding:       "20px 32px",
+              borderTop:     "1px solid rgba(255,255,255,0.06)",
+              fontFamily:    SANS,
+              fontSize:      "10px",
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              color:         "rgba(255,255,255,0.18)",
+              fontStyle:     "italic",
+            }}>
+              archive in progress
+            </div>
+          )}
         </div>
 
         {/* ── Right pane: detail ── */}
