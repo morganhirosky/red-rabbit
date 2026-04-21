@@ -342,7 +342,7 @@ export default function WritingArchive() {
                         paddingBottom: "2px",
                       }}
                     >
-                      view document [->]
+                      {"view document [->]"}
                     </a>
                   ) : (
                     <div style={{
