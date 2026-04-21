@@ -30,6 +30,14 @@ const SERIF = '"Times New Roman", Times, serif';
 export default function WritingArchive() {
   const [filter,   setFilter]   = useState<Category>("all");
   const [selected, setSelected] = useState<Entry | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const visible = filter === "all"
     ? allEntries
@@ -126,10 +134,11 @@ export default function WritingArchive() {
 
         {/* ── Left pane: list ── */}
         <div style={{
-          width:        "300px",
+          width:        isMobile ? "100%" : "300px",
           flexShrink:   0,
           overflowY:    "auto",
-          borderRight:  "1px solid rgba(255,255,255,0.08)",
+          borderRight:  isMobile ? "none" : "1px solid rgba(255,255,255,0.08)",
+          display:      isMobile && activeEntry ? "none" : "block",
         }}>
           {visible.length === 0 ? (
             <div style={{ padding: "24px 32px", fontSize: "12px", color: "rgba(255,255,255,0.25)" }}>
@@ -204,9 +213,29 @@ export default function WritingArchive() {
           flex:          1,
           overflowY:     (activeEntry?.kind === "senate" || (activeEntry?.kind === "feature" && activeEntry.data.embed)) ? "hidden" : "auto",
           padding:       (activeEntry?.kind === "senate" || (activeEntry?.kind === "feature" && activeEntry.data.embed)) ? "32px 48px" : "64px 72px",
-          display:       "flex",
+          display:       isMobile && !activeEntry ? "none" : "flex",
           flexDirection: "column",
         }}>
+          {isMobile && activeEntry && (
+            <button
+              onClick={() => setSelected(null)}
+              style={{
+                alignSelf:     "flex-start",
+                fontFamily:    SANS,
+                fontSize:      "11px",
+                letterSpacing: "0.10em",
+                textTransform: "uppercase",
+                color:         "rgba(255,255,255,0.40)",
+                background:    "none",
+                border:        "none",
+                cursor:        "default",
+                marginBottom:  "24px",
+                padding:       0,
+              }}
+            >
+              ← back
+            </button>
+          )}
           {!activeEntry ? (
             <div style={{
               flex:          1,
