@@ -147,10 +147,12 @@ export default function OrbField() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const W = canvas.width;
-    const H = canvas.height;
+    const dpr = window.devicePixelRatio || 1;
+    const W = canvas.clientWidth  || window.innerWidth;
+    const H = canvas.clientHeight || window.innerHeight;
+    canvas.width  = W * dpr;
+    canvas.height = H * dpr;
+    ctx.scale(dpr, dpr);
 
     ctx.font  = `${FS}px "Courier New", monospace`;
     const CW  = ctx.measureText("M").width;
