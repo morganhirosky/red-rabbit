@@ -324,47 +324,49 @@ export default function WritingArchive() {
               )}
 
               {(activeEntry.kind === "senate" || (activeEntry.kind === "feature" && activeEntry.data.embed)) && href ? (
-                isMobile ? (
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      display:       "inline-block",
-                      fontFamily:    SANS,
-                      fontSize:      "11px",
-                      letterSpacing: "0.10em",
-                      textTransform: "uppercase",
-                      color:         "#fff",
-                      textDecoration:"none",
-                      borderBottom:  "1px solid rgba(255,255,255,0.40)",
-                      paddingBottom: "2px",
-                    }}
-                  >
-                    {activeEntry.kind === "senate" ? "View document ↗" : "Read full piece ↗"}
-                  </a>
-                ) : (
-                <div style={{
-                  flex:     1,
-                  minHeight: 0,
-                  overflow: "hidden",
-                  border:       "1px solid rgba(255,255,255,0.10)",
-                  borderRadius: "2px",
-                  background:   "#111",
-                }}>
-                  <iframe
-                    key={href}
-                    src={href}
-                    style={{
-                      width:     "100%",
-                      height:    `calc(100% + ${activeEntry.data.cropTop ?? (activeEntry.kind === "senate" ? 250 : 0)}px)`,
-                      marginTop: `-${activeEntry.data.cropTop ?? (activeEntry.kind === "senate" ? 250 : 0)}px`,
-                      border:    "none",
-                      display:   "block",
-                    }}
-                  />
-                </div>
-                )
+                <>
+                  {isMobile ? (
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      style={{
+                        display:       "inline-block",
+                        fontFamily:    SANS,
+                        fontSize:      "11px",
+                        letterSpacing: "0.10em",
+                        textTransform: "uppercase",
+                        color:         "#fff",
+                        textDecoration:"none",
+                        borderBottom:  "1px solid rgba(255,255,255,0.40)",
+                        paddingBottom: "2px",
+                      }}
+                    >
+                      {activeEntry.kind === "senate" ? "View document ↗" : "Read full piece ↗"}
+                    </a>
+                  ) : (
+                    <div style={{
+                      flex:         1,
+                      minHeight:    0,
+                      overflow:     "hidden",
+                      border:       "1px solid rgba(255,255,255,0.10)",
+                      borderRadius: "2px",
+                      background:   "#111",
+                    }}>
+                      <iframe
+                        key={href}
+                        src={href}
+                        style={{
+                          width:     "100%",
+                          height:    `calc(100% + ${activeEntry.data.cropTop ?? (activeEntry.kind === "senate" ? 250 : 0)}px)`,
+                          marginTop: `-${activeEntry.data.cropTop ?? (activeEntry.kind === "senate" ? 250 : 0)}px`,
+                          border:    "none",
+                          display:   "block",
+                        }}
+                      />
+                    </div>
+                  )}
+                </>
               ) : isExternal && href ? (
                 <a
                   href={href}
