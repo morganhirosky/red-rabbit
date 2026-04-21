@@ -364,7 +364,7 @@ export default function WritingArchive() {
                     }}
                   />
                 </div>
-                ))
+                )
               ) : isExternal && href ? (
                 <a
                   href={href}
