@@ -168,28 +168,6 @@ const SECTIONS: Record<string, { title: string; subtitle?: string; image?: strin
 
 const PROJECTS = [
   {
-    id:       "01",
-    type:     "documentary film",
-    format:   "trailer",
-    year:     "2022",
-    title:    "Dead Bugs",
-    desc:     "Three anonymous individuals share intimate reflections of their self-concepts, memories, and defining relationships. Faceless interviews and sentimentally charged locations suggest that identity emanates beyond the individual.",
-    equipment:"Canon XF300",
-    software: "Adobe Premiere Pro",
-    embed:    "https://www.youtube.com/embed/6BiXCjKb1Cc",
-  },
-  {
-    id:       "02",
-    type:     "short documentary",
-    format:   "full film",
-    year:     "2022",
-    title:    "Dead Bugs",
-    desc:     "Self-understanding is born through witnessing another. Shot across intimate locations, this film asks what it means to know yourself through someone else's eyes.",
-    equipment:"Canon XF300",
-    software: "Adobe Premiere Pro",
-    embed:    "https://www.youtube.com/embed/orgpva2COfY",
-  },
-  {
     id:       "04",
     type:     "brand & web design",
     format:   "e-commerce",
@@ -212,6 +190,28 @@ const PROJECTS = [
     equipment:"Canon EOS Rebel SL1 & Digital Rebel XT",
     software: "Adobe Photoshop",
     embed:    null,
+  },
+  {
+    id:       "01",
+    type:     "documentary film",
+    format:   "trailer",
+    year:     "2022",
+    title:    "Dead Bugs",
+    desc:     "Three anonymous individuals share intimate reflections of their self-concepts, memories, and defining relationships. Faceless interviews and sentimentally charged locations suggest that identity emanates beyond the individual.",
+    equipment:"Canon XF300",
+    software: "Adobe Premiere Pro",
+    embed:    "https://www.youtube.com/embed/6BiXCjKb1Cc",
+  },
+  {
+    id:       "02",
+    type:     "short documentary",
+    format:   "full film",
+    year:     "2022",
+    title:    "Dead Bugs",
+    desc:     "Self-understanding is born through witnessing another. Shot across intimate locations, this film asks what it means to know yourself through someone else's eyes.",
+    equipment:"Canon XF300",
+    software: "Adobe Premiere Pro",
+    embed:    "https://www.youtube.com/embed/orgpva2COfY",
   },
 ] as const;
 
