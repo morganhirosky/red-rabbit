@@ -585,6 +585,15 @@ export default function Projects() {
                   borderRadius:"2px",
                   minWidth:    0,
                   cursor:      "default",
+                  position:    "relative",
+                }}
+                onMouseEnter={e => {
+                  const label = e.currentTarget.querySelector(".preview-label") as HTMLElement;
+                  if (label) label.style.opacity = "1";
+                }}
+                onMouseLeave={e => {
+                  const label = e.currentTarget.querySelector(".preview-label") as HTMLElement;
+                  if (label) label.style.opacity = "0";
                 }}
               >
                 <img
@@ -592,6 +601,24 @@ export default function Projects() {
                   alt={active.title}
                   style={{ width: "100%", height: "auto", display: "block" }}
                 />
+                <div className="preview-label" style={{
+                  position:      "absolute",
+                  bottom:        "12px",
+                  right:         "14px",
+                  fontFamily:    SANS,
+                  fontSize:      "11px",
+                  letterSpacing: "0.10em",
+                  textTransform: "uppercase",
+                  color:         "#fff",
+                  background:    "rgba(0,0,0,0.55)",
+                  padding:       "4px 10px",
+                  borderRadius:  "2px",
+                  opacity:       0,
+                  transition:    "opacity 0.2s",
+                  pointerEvents: "none",
+                }}>
+                  visit site ↗
+                </div>
               </a>
             )}
 
