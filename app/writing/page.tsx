@@ -323,9 +323,9 @@ export default function WritingArchive() {
                 </p>
               )}
 
-              {(activeEntry.kind === "senate" || (activeEntry.kind === "feature" && activeEntry.data.embed && !isMobile)) && href ? (
+              {(activeEntry.kind === "senate" || (activeEntry.kind === "feature" && activeEntry.data.embed)) && href ? (
                 <>
-                  {isMobile ? (
+                  {isMobile && activeEntry.kind === "senate" ? (
                     <a
                       href={href}
                       target="_blank"
@@ -342,7 +342,7 @@ export default function WritingArchive() {
                         paddingBottom: "2px",
                       }}
                     >
-                      {activeEntry.kind === "senate" ? "View document ↗" : "Read full piece ↗"}
+                      View document ↗
                     </a>
                   ) : (
                     <div style={{
