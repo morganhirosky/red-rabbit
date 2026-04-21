@@ -208,7 +208,7 @@ const PROJECTS = [
     format:   "full film",
     year:     "2022",
     title:    "Dead Bugs",
-    desc:     "Self-understanding is born through witnessing another. Shot across intimate locations, this film asks what it means to know yourself through someone else's eyes.",
+    desc:     "Three anonymous individuals share intimate reflections of their self-concepts, memories, and defining relationships. Faceless interviews and sentimentally charged locations suggest that identity emanates beyond the individual.",
     equipment:"Canon XF300",
     software: "Adobe Premiere Pro",
     embed:    "https://www.youtube.com/embed/orgpva2COfY",
