@@ -219,7 +219,15 @@ const SERIF = '"Times New Roman", Times, serif';
 export default function Projects() {
   const [selected, setSelected] = useState<number | null>(null);
   const [animKey,  setAnimKey]  = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
   const rightPaneRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
 
   const active = selected !== null ? PROJECTS[selected]! : null;
 
@@ -265,10 +273,11 @@ export default function Projects() {
 
         {/* ── Left pane: list ── */}
         <div style={{
-          width:       "300px",
+          width:       isMobile ? "100%" : "300px",
           flexShrink:  0,
           overflowY:   "auto",
-          borderRight: "1px solid rgba(255,255,255,0.08)",
+          borderRight: isMobile ? "none" : "1px solid rgba(255,255,255,0.08)",
+          display:     isMobile && selected !== null ? "none" : "block",
         }}>
           {PROJECTS.map((p, i) => {
             const isActive = selected === i;
@@ -377,12 +386,32 @@ export default function Projects() {
           flex:          1,
           overflowY:     "auto",
           padding:       "48px 32px",
-          display:       "flex",
+          display:       isMobile && selected === null ? "none" : "flex",
           flexDirection: "column",
           alignItems:    "center",
           textAlign:     "center",
           gap:           "0",
         }}>
+          {isMobile && selected !== null && (
+            <button
+              onClick={() => setSelected(null)}
+              style={{
+                alignSelf:     "flex-start",
+                fontFamily:    SANS,
+                fontSize:      "11px",
+                letterSpacing: "0.10em",
+                textTransform: "uppercase",
+                color:         "rgba(255,255,255,0.40)",
+                background:    "none",
+                border:        "none",
+                cursor:        "default",
+                marginBottom:  "24px",
+                padding:       0,
+              }}
+            >
+              ← back
+            </button>
+          )}
 
 {!active ? (
             <div style={{ flex: 1, display: "flex", alignItems: "center", justifyContent: "center" }}>
