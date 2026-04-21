@@ -198,7 +198,7 @@ const PROJECTS = [
     desc:     "Developed original clothing brand from concept through execution, including brand identity, apparel graphics, written copy, and custom e-commerce website with a retro OS aesthetic and hidden artistic subexperiences.",
     equipment:"Adobe Creative Cloud",
     software: "Next.js",
-    embed:    null,
+    embed:    "https://argo-je2f364k0-morganhiroskys-projects.vercel.app/",
   },
   {
     id:       "03",
