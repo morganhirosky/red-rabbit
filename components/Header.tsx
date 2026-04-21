@@ -7,7 +7,6 @@ const NAV = [
   { label: "writing",     href: "/writing"     },
   { label: "projects",    href: "/projects"    },
   { label: "observatory", href: "/observatory" },
-  { label: "about",       href: "/about"       },
   { label: "contact",     href: "/contact"     },
 ];
 
@@ -16,7 +15,7 @@ const LIGHT_PAGES: string[] = [];
 // Pages that need white header
 const WHITE_PAGES = ["/about"];
 // Pages that render their own nav — hide global header
-const NO_HEADER_PAGES = ["/writing", "/projects", "/about"];
+const NO_HEADER_PAGES = ["/writing", "/projects"];
 
 export default function Header() {
   const pathname = usePathname();
