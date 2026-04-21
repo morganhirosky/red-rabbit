@@ -58,7 +58,7 @@ export default function Header() {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="navbar-links" style={{ display: "flex", gap: "28px", alignItems: "center" }}>
+        <nav className="navbar-links" style={{ gap: "28px", alignItems: "center" }}>
           {NAV.map(({ label, href }) => {
             const active = pathname === href || (href !== "/" && pathname.startsWith(href));
             return (
