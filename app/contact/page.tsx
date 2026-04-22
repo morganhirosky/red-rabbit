@@ -76,7 +76,7 @@ function ScrambleLink({ prefix, label, href, external }: {
       >
         {disp}
       </a>
-      <span style={{ color: "rgba(255,255,255,0.25)", marginLeft: "10px" }}>{"[<-]"}</span>
+      <span style={{ color: "rgba(255,255,255,0.25)", marginLeft: "10px" }}>⇽</span>
     </span>
   );
 }
