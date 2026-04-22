@@ -513,7 +513,7 @@ export default function OrbField() {
           zIndex:        5,
         }}>
           {displayChars.map((wordChars, wi) => (
-            <div key={wi} style={{ fontFamily: '"Courier New", monospace', fontSize: "9vw", color: "rgba(255,255,255,0.85)", letterSpacing: "0.15em", lineHeight: 1.3 }}>
+            <div key={wi} style={{ fontFamily: '"Courier New", monospace', fontSize: "9vw", color: textColor, letterSpacing: "0.15em", lineHeight: 1.3 }}>
               {wordChars.join("")}
             </div>
           ))}
