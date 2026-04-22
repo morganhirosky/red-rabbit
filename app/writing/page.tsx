@@ -137,6 +137,7 @@ export default function WritingArchive() {
           width:        isMobile ? "100%" : "300px",
           flexShrink:   0,
           overflowY:    "auto",
+          minHeight:    0,
           borderRight:  isMobile ? "none" : "1px solid rgba(255,255,255,0.08)",
           display:      isMobile && activeEntry ? "none" : "block",
         }}>
@@ -269,7 +270,7 @@ export default function WritingArchive() {
               </>
             </div>
           ) : (
-            <div style={{ padding: isMobile ? "24px 20px" : "0", flex: isMobile ? "none" : 1, overflowY: "visible", display: "flex", flexDirection: "column" }}>
+            <div style={{ padding: isMobile ? "24px 20px" : "0", flex: 1, overflowY: "visible", display: "flex", flexDirection: "column" }}>
             <>
               <div style={{
                 fontSize:      "10px",
