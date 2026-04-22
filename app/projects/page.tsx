@@ -463,25 +463,26 @@ export default function Projects() {
 
           {/* ── Project header card ── */}
           <div style={{
-            width:        (active.embed || ("preview" in active && active.preview)) ? "100%" : "fit-content",
-            border:       "1px solid rgba(255,255,255,0.10)",
-            borderRadius: "4px",
-            background:   "rgba(255,255,255,0.02)",
-            padding:      "32px 40px",
-            marginBottom: "40px",
-            display:      "flex",
-            flexDirection: (active.embed || ("preview" in active && active.preview)) ? "row" : "column",
-            alignItems:   (active.embed || ("preview" in active && active.preview)) ? "flex-start" : "center",
-            gap:          (active.embed || ("preview" in active && active.preview)) ? "40px" : "0",
+            width:         "100%",
+            border:        "1px solid rgba(255,255,255,0.10)",
+            borderRadius:  "4px",
+            background:    "rgba(255,255,255,0.02)",
+            padding:       isMobile ? "20px" : "32px 40px",
+            marginBottom:  "40px",
+            display:       "flex",
+            flexDirection: isMobile ? "column" : (active.embed || ("preview" in active && active.preview)) ? "row" : "column",
+            alignItems:    isMobile ? "flex-start" : (active.embed || ("preview" in active && active.preview)) ? "flex-start" : "center",
+            gap:           (active.embed || ("preview" in active && active.preview)) ? (isMobile ? "24px" : "40px") : "0",
           }}>
 
             {/* Left: text info */}
             <div style={{
               display:       "flex",
               flexDirection: "column",
-              alignItems:    (active.embed || ("preview" in active && active.preview)) ? "flex-start" : "center",
-              flex:          (active.embed || ("preview" in active && active.preview)) ? "0 0 auto" : undefined,
-              maxWidth:      (active.embed || ("preview" in active && active.preview)) ? "280px" : undefined,
+              alignItems:    (isMobile || active.embed || ("preview" in active && active.preview)) ? "flex-start" : "center",
+              flex:          (!isMobile && (active.embed || ("preview" in active && active.preview))) ? "0 0 auto" : undefined,
+              maxWidth:      (!isMobile && (active.embed || ("preview" in active && active.preview))) ? "280px" : undefined,
+              width:         isMobile ? "100%" : undefined,
             }}>
               <div style={{
                 fontSize:      "10px",
@@ -500,7 +501,7 @@ export default function Projects() {
                 lineHeight:      1.05,
                 color:           "#fff",
                 marginBottom:    "6px",
-                textAlign:       (active.embed || ("preview" in active && active.preview)) ? "left" : "center",
+                textAlign:       (isMobile || active.embed || ("preview" in active && active.preview)) ? "left" : "center",
                 textTransform:   "lowercase",
               }}>
                 {active.title}
@@ -530,8 +531,8 @@ export default function Projects() {
                 lineHeight:  1.85,
                 color:       "rgba(255,255,255,0.65)",
                 marginBottom:"24px",
-                textAlign:   (active.embed || ("preview" in active && active.preview)) ? "left" : "center",
-                maxWidth:    (active.embed || ("preview" in active && active.preview)) ? undefined : "520px",
+                textAlign:   (isMobile || active.embed || ("preview" in active && active.preview)) ? "left" : "center",
+                maxWidth:    (isMobile || active.embed || ("preview" in active && active.preview)) ? undefined : "520px",
               }}>
                 {active.desc}
               </p>
@@ -571,7 +572,8 @@ export default function Projects() {
             {/* Right: video embed */}
             {active.embed && (
               <div style={{
-                flex:        1,
+                flex:        isMobile ? undefined : 1,
+                width:       isMobile ? "100%" : undefined,
                 aspectRatio: "16 / 9",
                 overflow:    "hidden",
                 border:      "1px solid rgba(255,255,255,0.10)",
@@ -596,7 +598,8 @@ export default function Projects() {
                 target="_blank"
                 rel="noopener noreferrer"
                 style={{
-                  flex:        1,
+                  flex:        isMobile ? undefined : 1,
+                  width:       isMobile ? "100%" : undefined,
                   display:     "block",
                   overflow:    "hidden",
                   border:      "1px solid rgba(255,255,255,0.10)",
@@ -631,11 +634,11 @@ export default function Projects() {
                   background:    "rgba(0,0,0,0.55)",
                   padding:       "4px 10px",
                   borderRadius:  "2px",
-                  opacity:       0,
+                  opacity:       isMobile ? 1 : 0,
                   transition:    "opacity 0.2s",
                   pointerEvents: "none",
                 }}>
-                  visit site ↗
+                  {"visit site [->]"}
                 </div>
               </a>
             )}
