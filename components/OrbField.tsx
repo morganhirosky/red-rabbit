@@ -550,7 +550,7 @@ export default function OrbField() {
         zIndex:        10,
         animation:     hintOpacity > 0 ? "wiggle 0.5s ease 0.3s 2" : "none",
       }}>
-        drag the sprites
+        drag or tap the sprites
       </div>
 
       {/* Color picker widget */}
