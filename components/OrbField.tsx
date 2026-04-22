@@ -187,7 +187,7 @@ export default function OrbField() {
       } else {
         setDisplayChars(SCRAMBLE_WORDS.map(w => w.split("")));
       }
-    }, 55);
+    }, 46);
     return () => clearInterval(id);
   }, [isMobile]);
 
