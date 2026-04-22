@@ -27,6 +27,7 @@ html, body {
 }
 
 @keyframes blink      { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes wiggle     { 0%, 100% { transform: translateX(0); } 20% { transform: translateX(-5px); } 40% { transform: translateX(5px); } 60% { transform: translateX(-4px); } 80% { transform: translateX(4px); } }
 @keyframes blink-p    { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 @keyframes scan-reveal { 0% { clip-path: inset(0 0 100% 0); } 100% { clip-path: inset(0 0 0% 0); } }
 @keyframes scan-line   { 0% { top: 0%; opacity: 1; } 90% { opacity: 1; } 100% { top: 100%; opacity: 0; } }

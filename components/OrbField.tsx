@@ -408,11 +408,6 @@ export default function OrbField() {
       }
 
       // ── Sprites ─────────────────────────────────────────────────
-      if (idleReached && imagesLoaded && !entranceTriggered) {
-        entranceTriggered = true;
-        floaties.forEach((f, i) => { setTimeout(() => { f.timer = 70; }, i * 180); });
-      }
-
       for (const f of floaties) {
         f.alpha = imagesLoaded ? 1 : 0;
 
@@ -535,17 +530,18 @@ export default function OrbField() {
 
       {/* Sprite hint */}
       <div style={{
-        position:   "fixed",
-        bottom:     "28px",
-        left:       "32px",
-        fontFamily: '"Courier New", monospace',
-        fontSize:   "11px",
+        position:      "fixed",
+        bottom:        "28px",
+        left:          "32px",
+        fontFamily:    '"Courier New", monospace',
+        fontSize:      "14px",
         letterSpacing: "0.10em",
-        color:      "rgba(255,255,255,0.35)",
+        color:         "rgba(255,255,255,0.45)",
         pointerEvents: "none",
-        opacity:    hintOpacity,
-        transition: "opacity 1.2s ease",
-        zIndex:     10,
+        opacity:       hintOpacity,
+        transition:    "opacity 1.2s ease",
+        zIndex:        10,
+        animation:     hintOpacity > 0 ? "wiggle 0.5s ease 0.3s 2" : "none",
       }}>
         drag the sprites
       </div>
