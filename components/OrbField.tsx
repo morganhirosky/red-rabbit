@@ -135,9 +135,10 @@ export default function OrbField() {
   const bgRef      = useRef("#000000");
   const textRef    = useRef("#ffffff");
 
-  const [bgColor,   setBgColor]   = useState("#000000");
-  const [textColor, setTextColor] = useState("#ffffff");
-  const [isMobile,  setIsMobile]  = useState(false);
+  const [bgColor,    setBgColor]   = useState("#000000");
+  const [textColor,  setTextColor] = useState("#ffffff");
+  const [isMobile,   setIsMobile]  = useState(false);
+  const [hintOpacity, setHintOpacity] = useState(0);
 
   const SCRAMBLE_WORDS = ["morgan", "hirosky"];
   const [displayChars, setDisplayChars] = useState<string[][]>(
@@ -152,6 +153,12 @@ export default function OrbField() {
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
+  }, []);
+
+  useEffect(() => {
+    const t1 = setTimeout(() => setHintOpacity(1), 3200);
+    const t2 = setTimeout(() => setHintOpacity(0), 6500);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
   }, []);
 
   useEffect(() => {
@@ -243,6 +250,7 @@ export default function OrbField() {
     let orbX = -999, orbY = -999;
     let imagesLoaded = false;
     let idleReached  = false;
+    let entranceTriggered = false;
 
     type Drag = { f: Floaty; ox: number; oy: number; lx: number; ly: number; dvx: number; dvy: number; moved: boolean };
     let drag: Drag | null = null;
@@ -400,6 +408,11 @@ export default function OrbField() {
       }
 
       // ── Sprites ─────────────────────────────────────────────────
+      if (idleReached && imagesLoaded && !entranceTriggered) {
+        entranceTriggered = true;
+        floaties.forEach((f, i) => { setTimeout(() => { f.timer = 70; }, i * 180); });
+      }
+
       for (const f of floaties) {
         f.alpha = imagesLoaded ? 1 : 0;
 
@@ -519,6 +532,23 @@ export default function OrbField() {
           ))}
         </div>
       )}
+
+      {/* Sprite hint */}
+      <div style={{
+        position:   "fixed",
+        bottom:     "28px",
+        left:       "32px",
+        fontFamily: '"Courier New", monospace',
+        fontSize:   "11px",
+        letterSpacing: "0.10em",
+        color:      "rgba(255,255,255,0.35)",
+        pointerEvents: "none",
+        opacity:    hintOpacity,
+        transition: "opacity 1.2s ease",
+        zIndex:     10,
+      }}>
+        drag the sprites
+      </div>
 
       {/* Color picker widget */}
       <div style={{
