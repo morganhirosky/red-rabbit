@@ -13,7 +13,7 @@ const NAV = [
 
 const LIGHT_PAGES: string[] = [];
 const WHITE_PAGES = ["/about"];
-const NO_HEADER_PAGES = ["/writing", "/projects"];
+const NO_HEADER_PAGES = ["/writing", "/projects", "/contact"];
 
 const SANS = '"Source Sans 3", "Source Sans Pro", sans-serif';
 
