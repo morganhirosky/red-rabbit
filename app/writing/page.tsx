@@ -233,6 +233,9 @@ export default function WritingArchive() {
                 padding:       "16px 24px",
                 textAlign:     "left",
                 flexShrink:    0,
+                position:      "sticky",
+                top:           0,
+                zIndex:        10,
               }}
             >
               ← back to list
@@ -266,7 +269,7 @@ export default function WritingArchive() {
               </>
             </div>
           ) : (
-            <div style={{ padding: isMobile ? "24px 20px" : "0", flex: 1, overflowY: "visible", display: "flex", flexDirection: "column" }}>
+            <div style={{ padding: isMobile ? "24px 20px" : "0", flex: isMobile ? "none" : 1, overflowY: "visible", display: "flex", flexDirection: "column" }}>
             <>
               <div style={{
                 fontSize:      "10px",
