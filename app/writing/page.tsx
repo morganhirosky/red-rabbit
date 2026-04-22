@@ -266,7 +266,7 @@ export default function WritingArchive() {
               </>
             </div>
           ) : (
-            <div style={{ padding: isMobile ? "24px 20px" : "0", flex: 1, overflowY: isMobile ? "auto" : "visible", display: "flex", flexDirection: "column" }}>
+            <div style={{ padding: isMobile ? "24px 20px" : "0", flex: 1, overflowY: "visible", display: "flex", flexDirection: "column" }}>
             <>
               <div style={{
                 fontSize:      "10px",
