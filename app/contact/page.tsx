@@ -99,7 +99,7 @@ export default function Contact() {
     const fullText = lineFullText(line);
 
     if (charIndex >= fullText.length) {
-      const pause = line.kind === "text" && line.text.endsWith("...") ? 400 : 100;
+      const pause = line.kind === "text" && line.text.endsWith("...") ? 550 : 130;
       const t = setTimeout(() => {
         if (lineIndex + 1 >= LINES.length) setAllDone(true);
         else { setLineIndex(l => l + 1); setCharIndex(0); }
@@ -107,7 +107,7 @@ export default function Contact() {
       return () => clearTimeout(t);
     }
 
-    const t = setTimeout(() => setCharIndex(c => c + 1), line.kind === "blank" ? 5 : 18);
+    const t = setTimeout(() => setCharIndex(c => c + 1), line.kind === "blank" ? 5 : 22);
     return () => clearTimeout(t);
   }, [lineIndex, charIndex, allDone]);
 
