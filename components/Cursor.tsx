@@ -4,9 +4,10 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
 export default function Cursor() {
-  const [pos,      setPos]      = useState({ x: -200, y: -200 });
-  const [hovering, setHovering] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [pos,         setPos]         = useState({ x: -200, y: -200 });
+  const [hovering,    setHovering]    = useState(false);
+  const [spriteHover, setSpriteHover] = useState(false);
+  const [isMobile,    setIsMobile]    = useState(false);
   const pathname = usePathname();
   const isAbout  = pathname.startsWith("/about");
 
@@ -22,12 +23,17 @@ export default function Cursor() {
     const onOver = (e: MouseEvent) => {
       setHovering((e.target as HTMLElement).closest("a, button") !== null);
     };
+    const onSpriteHover = (e: Event) => {
+      setSpriteHover((e as CustomEvent).detail.hovering);
+    };
 
     window.addEventListener("mousemove", onMove);
     window.addEventListener("mouseover", onOver);
+    window.addEventListener("sprite-hover", onSpriteHover);
     return () => {
       window.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseover", onOver);
+      window.removeEventListener("sprite-hover", onSpriteHover);
     };
   }, []);
 
@@ -42,13 +48,13 @@ export default function Cursor() {
       pointerEvents: "none",
       zIndex:        9999,
       fontFamily:    '"Source Sans 3", "Source Sans Pro", sans-serif',
-      fontSize:      isAbout ? "28px" : "20px",
-      color:         hovering ? "#ff0055" : "#ff0055",
+      fontSize:      isAbout ? "28px" : spriteHover ? "22px" : "20px",
+      color:         "#ff0055",
       userSelect:    "none",
       lineHeight:    1,
       fontWeight:    isAbout ? "bold" : "normal",
     }}>
-      {hovering ? "[+]" : "+"}
+      {hovering ? "[+]" : spriteHover ? "⊕" : "+"}
     </div>
   );
 }

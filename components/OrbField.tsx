@@ -260,6 +260,13 @@ export default function OrbField() {
 
     const onMove = (e: MouseEvent) => {
       if (animPhase === "idle") { orbX = e.clientX; orbY = e.clientY; }
+
+      const overSprite = imagesLoaded && floaties.some(f =>
+        e.clientX >= f.x && e.clientX <= f.x + f.drawW &&
+        e.clientY >= f.y && e.clientY <= f.y + f.drawH
+      );
+      window.dispatchEvent(new CustomEvent("sprite-hover", { detail: { hovering: overSprite } }));
+
       if (!drag) return;
       const dx = e.clientX - drag.lx, dy = e.clientY - drag.ly;
       drag.dvx = dx; drag.dvy = dy;
