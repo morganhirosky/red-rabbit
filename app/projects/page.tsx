@@ -638,7 +638,7 @@ export default function Projects() {
                   transition:    "opacity 0.2s",
                   pointerEvents: "none",
                 }}>
-                  {"visit site [->]"}
+                  visit site
                 </div>
               </a>
             )}

@@ -93,7 +93,7 @@ His answer lingered with me long after the conversation ended. For someone who h
   },
   {
     slug: "10-anime-characters-father-wound",
-    title: "10 Anime Characters Struggling with the Father Wound",
+    title: "7 Anime Characters Struggling with the Father Wound",
     publication: "Game Rant",
     url: "https://morghirosky.wixsite.com/redrabbit/post/10-anime-characters-struggling-with-the-father-wound-in-depth",
     embed: true,

@@ -204,7 +204,7 @@ export default function WritingArchive() {
               color:         "rgba(255,255,255,0.18)",
               fontStyle:     "italic",
             }}>
-              archive in progress
+              archive upload in progress
             </div>
           )}
         </div>
