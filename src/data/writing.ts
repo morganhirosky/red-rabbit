@@ -174,7 +174,7 @@ export const technicalWriting: TechnicalEntry[] = [
   { title: "Dick Lavine",                        pdf: "Dick Lavine.pdf" },
   { title: "Dr. Jill Fox",                       pdf: "Dr. Jill Fox Memorial.pdf" },
   { title: "Dr. Rutchebeth Contreras",           pdf: "Dr. Rutchebeth Contreras.pdf" },
-  { title: "Filipino Veterans Recognition",      pdf: "Filipino Veterans Recognition 2025.pdf", cropTop: 450 },
+  { title: "Filipino Veterans Recognition",      pdf: "Filipino Veterans Recognition 2025.pdf", cropTop: 40 },
   { title: "Frank Cloud Cooksey",                pdf: "Frank Cloud Cooksey Memorial.pdf" },
   { title: "James Arens",                        pdf: "James Arens Memorial.pdf" },
   { title: "La Salle Dialysis",                  pdf: "La Salle Dialysis.pdf" },
