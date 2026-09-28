@@ -18,7 +18,7 @@ const allEntries: Entry[] = [
 function entryId(e: Entry)          { return e.kind === "feature" ? e.data.slug : `senate-${e.index}`; }
 function entryTitle(e: Entry)       { return e.data.title; }
 function entryMeta(e: Entry)        { return e.kind === "feature" ? [e.data.publication, e.data.date].filter(Boolean).join(" · ") : ["Texas Senate", e.data.date].filter(Boolean).join(" · "); }
-function entryKindLabel(e: Entry)   { return e.kind === "feature" ? "culture" : "government"; }
+function entryKindLabel(e: Entry)   { return e.kind === "feature" ? "editorial" : "technical"; }
 function entryIsExternal(e: Entry)  { return e.kind === "feature" ? !!e.data.url : true; }
 function entryHref(e: Entry)        { return e.kind === "feature" ? (e.data.url ?? null) : `/senate/${e.data.pdf}`; }
 function entryContent(e: Entry)     { return e.kind === "feature" ? (e.data.content ?? null) : null; }
@@ -92,7 +92,7 @@ export default function WritingArchive() {
         flexShrink:   0,
       }}>
         {(["all", "feature", "senate"] as Category[]).map(cat => {
-          const label = cat === "feature" ? "culture" : cat === "senate" ? "government" : "all";
+          const label = cat === "feature" ? "editorial" : cat === "senate" ? "technical" : "all";
           return (
           <button
             key={cat}
