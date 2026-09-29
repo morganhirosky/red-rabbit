@@ -8,6 +8,7 @@ export type ArticleVersion = { title: string; paragraphs: string[]; italicize?: 
 
 export type FeaturedEdit = {
   author?:     string;
+  editor?:     string;           // credited on the soft and hard edits only
   outlet:      string;
   date?:       string;
   original:    ArticleVersion;
@@ -17,6 +18,7 @@ export type FeaturedEdit = {
 
 export const FEATURED_EDIT: FeaturedEdit = {
   author: "Lupita",
+  editor: "Morgan",
   outlet: "KTSW 89.9",
 
   // Verbatim contributor draft — do not correct

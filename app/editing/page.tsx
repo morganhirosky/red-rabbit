@@ -142,6 +142,9 @@ export default function Editing() {
           .ed-arrow { align-self: center; }
           .ed-arrow::before { content: "\\2193"; }
           .ed-aside { display: none; }
+          /* Keep the three version links on one line */
+          .ed-versions { flex-wrap: nowrap !important; gap: 12px !important; }
+          .ed-versions .rd-link { font-size: 12px !important; letter-spacing: 0 !important; }
           .ed-pad { padding-left: 20px !important; padding-right: 20px !important; }
         }
       `}</style>
@@ -192,7 +195,7 @@ export default function Editing() {
               <p style={{ fontSize: "15px", lineHeight: 1.7, color: "rgba(255,255,255,0.60)", marginBottom: "28px", maxWidth: "560px" }}>
                 A retrospective edit of a music feature originally written by a KTSW 89.9 contributor. The edit focused on restructuring the piece, strengthening its introduction and transitions, improving clarity and specificity, and preserving the writer&rsquo;s enthusiastic first-person voice.
               </p>
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "28px" }}>
+              <div className="ed-versions" style={{ display: "flex", flexWrap: "wrap", gap: "28px" }}>
                 <ReaderLink view="original">original</ReaderLink>
                 <ReaderLink view="soft">soft edit</ReaderLink>
                 <ReaderLink view="hard">hard edit</ReaderLink>

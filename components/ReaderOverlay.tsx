@@ -212,7 +212,13 @@ export default function ReaderOverlay({ edit }: { edit: FeaturedEdit }) {
 
   if (!view || !mounted) return null;
 
-  const byline = ["By " + (edit.author ?? "[original author]"), edit.outlet, edit.date].filter(Boolean).join("  |  ");
+  // Writer keeps the byline on every version; the editor is credited on the edits
+  const byline = (v: VersionKey) => [
+    "By " + (edit.author ?? "[original author]"),
+    v !== "original" && edit.editor && `Edited by ${edit.editor}`,
+    edit.outlet,
+    edit.date,
+  ].filter(Boolean).join("  |  ");
   const tabs = narrow ? VERSIONS : VIEWS;
 
   return (
@@ -301,7 +307,7 @@ export default function ReaderOverlay({ edit }: { edit: FeaturedEdit }) {
         <div ref={bodyRef} className="rd-pad" style={{ flex: 1, overflowY: "auto", minHeight: 0, padding: "40px 56px 64px" }}>
           {view === "compare"
             ? <Compare edit={edit} mode={mode} />
-            : <Article version={edit[view]} name={NAMES[view]} byline={byline} accent={ACCENT[view]} />}
+            : <Article version={edit[view]} name={NAMES[view]} byline={byline(view)} accent={ACCENT[view]} />}
         </div>
       </div>
     </div>

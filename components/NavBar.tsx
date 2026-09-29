@@ -29,13 +29,19 @@ export default function NavBar({ activePath, containerStyle }: { activePath: str
         zIndex:         100,
         ...containerStyle,
       }}>
+        {/* Same red and hover as the resume button */}
         <Link href="/" style={{
           fontFamily:    SANS,
           fontSize:      "13px",
-          color:         "rgba(255,255,255,0.5)",
+          color:         "#ff0055",
+          opacity:       0.7,
+          transition:    "opacity 0.2s",
           textDecoration:"none",
           letterSpacing: "0.08em",
-        }}>
+        }}
+          onMouseEnter={e => (e.currentTarget.style.opacity = "1")}
+          onMouseLeave={e => (e.currentTarget.style.opacity = "0.7")}
+        >
           morgan hirosky
         </Link>
 

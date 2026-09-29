@@ -28,7 +28,6 @@ export default function Header() {
 
   if (noHeader) return null;
 
-  const nameColor   = isWhite ? "rgba(255,255,255,0.80)" : isLight ? "rgba(26,58,110,0.60)" : "rgba(255,255,255,0.50)";
   const linkColor   = isWhite ? "rgba(255,255,255,0.45)" : isLight ? "rgba(26,58,110,0.30)" : "rgba(255,255,255,0.28)";
   const activeColor = isWhite ? "#ffffff"                : isLight ? "#1A3A6E"              : "#ffffff";
 
@@ -46,15 +45,21 @@ export default function Header() {
         padding:        "20px 32px",
         pointerEvents:  "none",
       }}>
-        <Link href="/" style={{
+        {/* Same red and hover as the resume button. Hidden on the desktop home
+            page, where the orb field already spells out the name. */}
+        <Link href="/" className={pathname === "/" ? "header-name-home" : undefined} style={{
           fontFamily:    SANS,
           fontSize:      "13px",
-          color:         nameColor,
+          color:         "#ff0055",
+          opacity:       0.7,
           textDecoration:"none",
           letterSpacing: "0.08em",
           pointerEvents: "auto",
-          transition:    "color 0.3s",
-        }}>
+          transition:    "opacity 0.2s",
+        }}
+          onMouseEnter={e => (e.currentTarget.style.opacity = "1")}
+          onMouseLeave={e => (e.currentTarget.style.opacity = "0.7")}
+        >
           morgan hirosky
         </Link>
 
