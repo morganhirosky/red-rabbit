@@ -130,13 +130,17 @@ function sampleName(W: number, H: number, CW: number): Array<{ x: number; y: num
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
+const DEFAULT_BG   = "#000000";
+const DEFAULT_TEXT = "#ffffff";
+
 export default function OrbField() {
   const canvasRef  = useRef<HTMLCanvasElement>(null);
-  const bgRef      = useRef("#000000");
-  const textRef    = useRef("#ffffff");
+  const bgRef      = useRef(DEFAULT_BG);
+  const textRef    = useRef(DEFAULT_TEXT);
 
-  const [bgColor,    setBgColor]   = useState("#000000");
-  const [textColor,  setTextColor] = useState("#ffffff");
+  const [bgColor,    setBgColor]   = useState(DEFAULT_BG);
+  const [textColor,  setTextColor] = useState(DEFAULT_TEXT);
+  const isCustomized = bgColor !== DEFAULT_BG || textColor !== DEFAULT_TEXT;
   const [isMobile,   setIsMobile]  = useState(false);
   const [hintOpacity, setHintOpacity] = useState(0);
 
@@ -563,6 +567,33 @@ export default function OrbField() {
         gap:          "10px",
         zIndex:       10,
       }}>
+        {/* Reset to the site's original black/white */}
+        <button
+          onClick={() => { setBgColor(DEFAULT_BG); setTextColor(DEFAULT_TEXT); }}
+          disabled={!isCustomized}
+          aria-label="Reset colors"
+          title="reset colors"
+          style={{
+            width:          "18px",
+            height:         "18px",
+            display:        "flex",
+            alignItems:     "center",
+            justifyContent: "center",
+            border:         "1px solid rgba(255,255,255,0.25)",
+            borderRadius:   "3px",
+            padding:        0,
+            background:     "none",
+            color:          "rgba(255,255,255,0.45)",
+            opacity:        isCustomized ? 1 : 0.4,
+            transition:     "opacity 0.2s",
+            cursor:         "pointer",
+          }}
+        >
+          <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+            <path d="M5.5 3 2.5 6l3 3" />
+            <path d="M2.5 6H10a3.5 3.5 0 0 1 0 7H6" />
+          </svg>
+        </button>
         {[
           { label: "bg",   value: bgColor,   onChange: setBgColor   },
           { label: "text", value: textColor, onChange: setTextColor },

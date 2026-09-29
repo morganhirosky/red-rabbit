@@ -14,33 +14,29 @@ const FAINT = "1px solid rgba(255,255,255,0.06)";
 const DSOTM = <em>The Dark Side of the Moon</em>;
 
 type Panel = { label: string; body: React.ReactNode };
-type Edit  = { title: string; summary: string; before: Panel; after: Panel; note: React.ReactNode };
+type Edit  = { title: string; before: Panel; after: Panel; note: React.ReactNode };
 
 const EDITS: Edit[] = [
   {
     title:   "structure",
-    summary: "Reorganized key sections to create a clearer flow from the overall experience to a specific standout moment.",
     before: { label: "original order", body: <ol>{["Overall experience", "Synthesizers", "“Us and Them”", "General visual description"].map(s => <li key={s}>{s}</li>)}</ol> },
     after:  { label: "edited order",   body: <ol>{["Overall experience", "General visual description", "“Us and Them”", "Specific visual examples"].map(s => <li key={s}>{s}</li>)}</ol> },
     note: <>I moved the broader description of the show&rsquo;s visual language ahead of the &ldquo;Us and Them&rdquo; discussion, allowing the article to progress from the overall experience to a specific standout moment.</>,
   },
   {
     title:   "clarity & specificity",
-    summary: "Replaced vague descriptions with specific details and tightened the sentence structure for clarity.",
     before: { label: "before", body: <>&ldquo;While listening to the album front to back you are seated looking up at the rounded planetarium with specific visuals with every color you can imagine.&rdquo;</> },
     after:  { label: "after",  body: <>&ldquo;Seated inside the Burke Baker Planetarium, you&rsquo;re able to listen to {DSOTM} from start to finish while specially made visuals play out on the full-dome ceiling overhead.&rdquo;</> },
     note: <>I replaced vague spatial descriptions with specific details about the venue and full-dome format while restructuring the sentence for clarity.</>,
   },
   {
     title:   "focus",
-    summary: "Condensed the introduction and moved the core subject earlier to create a stronger, more engaging opening.",
     before: { label: "before (opening)", body: <>&ldquo;&hellip;Its considerate lyrics and use of instruments never fail to amaze me. Thinking nothing could ever top listening to this album, I discovered listening AND seeing this album is 10 times better.&rdquo;</> },
     after:  { label: "after (opening)",  body: <>&ldquo;&hellip;After my first listen, I believed the sonic experience this record curates could never be topped&ndash;until I discovered the Pink Floyd audio-visual laser show at the Houston Museum of Natural Science.&rdquo;</> },
     note: <>The original introduction established the writer&rsquo;s enthusiasm for the album but delayed the article&rsquo;s central subject. I condensed the background and restructured the paragraph to transition directly into the planetarium experience.</>,
   },
   {
     title:   "voice",
-    summary: "Strengthened the substance of a sentence while retaining the writer’s distinctive language and enthusiasm.",
     before: { label: "before", body: <>&ldquo;Since a good amount of the album incorporates crazy synthesizers, the visuals just add that same amount of passionate energy into the whole show.&rdquo;</> },
     after:  { label: "after",  body: <>&ldquo;Since many songs feature crazy synthesizers, the colorful laser projections easily match the passionate energy of the album&hellip;&rdquo;</> },
     note: <>I kept the writer&rsquo;s phrasing, &ldquo;crazy synthesizers&rdquo; and &ldquo;passionate energy,&rdquo; to maintain their original voice and writing idiosyncrasies. I expanded overly generalized wording to avoid redundancy and improve substance.</>,
@@ -85,10 +81,7 @@ function EditCard({ edit, n }: { edit: Edit; n: number }) {
     <article style={{ border: RULE, padding: "28px 28px 26px", display: "flex", flexDirection: "column", gap: "20px" }}>
       <header style={{ display: "flex", gap: "16px", alignItems: "baseline" }}>
         <span style={{ fontFamily: MONO, fontSize: "20px", color: "rgba(255,255,255,0.35)" }}>{String(n).padStart(2, "0")}</span>
-        <div>
-          <h3 style={{ ...label, fontSize: "13px", color: "#fff", marginBottom: "8px" }}>{edit.title}</h3>
-          <p style={{ fontSize: "14px", lineHeight: 1.55, color: "rgba(255,255,255,0.55)" }}>{edit.summary}</p>
-        </div>
+        <h3 style={{ ...label, fontSize: "13px", color: "#fff" }}>{edit.title}</h3>
       </header>
 
       <div className="ed-compare">
