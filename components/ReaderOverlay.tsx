@@ -25,6 +25,14 @@ const TITLES: Record<ReaderView, string> = {
   hard:     "hard edit",
   compare:  "compare versions",
 };
+// One accent per version, used only on labels, tab underlines and rules:
+// gray for the draft, soft pink for the light edit, the site red for the hard edit
+const ACCENT: Record<ReaderView, string> = {
+  original: "rgba(255,255,255,0.45)",
+  soft:     "#ff8fb1",
+  hard:     "#ff0055",
+  compare:  "#fff",
+};
 // Old links from before the soft edit existed
 const LEGACY: Record<string, ReaderView> = { edited: "hard" };
 
@@ -34,12 +42,13 @@ const LEGACY: Record<string, ReaderView> = { edited: "hard" };
 let openedInApp = false;
 
 // `[ label ]` link that opens the overlay at a given view
-export function ReaderLink({ view, children }: { view: ReaderView; children: React.ReactNode }) {
+// `wideOnly` hides the link where side-by-side compare isn't available
+export function ReaderLink({ view, wideOnly, children }: { view: ReaderView; wideOnly?: boolean; children: React.ReactNode }) {
   const router   = useRouter();
   const pathname = usePathname();
   return (
     <button
-      className="rd-link"
+      className={wideOnly ? "rd-link rd-wide-only" : "rd-link"}
       onClick={() => { openedInApp = true; router.push(`${pathname}?view=${view}`, { scroll: false }); }}
       style={{
         fontFamily:    MONO,
@@ -96,14 +105,14 @@ function Paragraphs({ version, name, size = 17 }: { version: ArticleVersion; nam
   );
 }
 
-function Article({ version, name, byline }: { version: ArticleVersion; name: string; byline: string }) {
+function Article({ version, name, byline, accent }: { version: ArticleVersion; name: string; byline: string; accent: string }) {
   return (
     <article style={{ maxWidth: "720px", margin: "0 auto" }}>
       <h2 style={{ fontSize: "clamp(26px, 3vw, 38px)", fontWeight: 300, lineHeight: 1.15, marginBottom: "12px" }}>
         {withItalics(version.title, version.italicize)}
       </h2>
       <div style={{ ...label, letterSpacing: "0.08em", marginBottom: "24px" }}>{byline}</div>
-      <div style={{ borderTop: RULE, marginBottom: "32px" }} />
+      <div style={{ borderTop: `1px solid ${accent}`, opacity: 0.7, marginBottom: "32px" }} />
       <div className="rd-art" style={{ float: "right", margin: "4px 0 16px 28px", border: RULE, padding: "10px 6px" }}>
         <AsciiScene variant="dome" cols={40} rows={18} fontSize="7px" opacity={0.6} />
       </div>
@@ -121,7 +130,8 @@ function Compare({ edit, mode }: { edit: FeaturedEdit; mode: "side" | "toggle" }
       <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
         {VERSIONS.map((v, i) => (
           <div key={v} style={{ minWidth: 0, padding: "0 28px", ...(i > 0 && { borderLeft: RULE }), ...(i === 0 && { paddingLeft: 0 }), ...(i === 2 && { paddingRight: 0 }) }}>
-            <div style={{ ...label, color: "rgba(255,255,255,0.70)", marginBottom: "20px" }}>{NAMES[v]}</div>
+            <div style={{ borderTop: `2px solid ${ACCENT[v]}`, width: "28px", marginBottom: "12px" }} />
+            <div style={{ ...label, color: ACCENT[v], marginBottom: "20px" }}>{NAMES[v]}</div>
             <Paragraphs version={edit[v]} name={NAMES[v]} size={15} />
           </div>
         ))}
@@ -133,7 +143,7 @@ function Compare({ edit, mode }: { edit: FeaturedEdit; mode: "side" | "toggle" }
     <div style={{ maxWidth: "720px", margin: "0 auto" }}>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "20px", marginBottom: "28px" }}>
         {VERSIONS.map(v => (
-          <Bracket key={v} active={shown === v} onClick={() => setShown(v)}>{NAMES[v]}</Bracket>
+          <Bracket key={v} active={shown === v} accent={ACCENT[v]} onClick={() => setShown(v)}>{NAMES[v]}</Bracket>
         ))}
       </div>
       <Paragraphs version={edit[shown]} name={NAMES[shown]} />
@@ -142,13 +152,13 @@ function Compare({ edit, mode }: { edit: FeaturedEdit; mode: "side" | "toggle" }
 }
 
 // Nav-style toggle: active option renders as [label]
-function Bracket({ active, onClick, children }: { active: boolean; onClick: () => void; children: string }) {
+function Bracket({ active, onClick, accent = "#fff", children }: { active: boolean; onClick: () => void; accent?: string; children: string }) {
   return (
     <button onClick={onClick} aria-pressed={active} style={{
       fontFamily:    SANS,
       fontSize:      "13px",
       letterSpacing: "0.06em",
-      color:         active ? "#fff" : "rgba(255,255,255,0.40)",
+      color:         active ? accent : "rgba(255,255,255,0.40)",
       background:    "none",
       border:        "none",
       padding:       0,
@@ -164,12 +174,15 @@ export default function ReaderOverlay({ edit }: { edit: FeaturedEdit }) {
   const pathname = usePathname();
   const params   = useSearchParams();
   const param    = params.get("view");
-  const view     = VIEWS.includes(param as ReaderView) ? (param as ReaderView) : param ? LEGACY[param] ?? null : null;
+  const asked    = VIEWS.includes(param as ReaderView) ? (param as ReaderView) : param ? LEGACY[param] ?? null : null;
 
   const [mode, setMode]     = useState<"side" | "toggle">("side");
   const [narrow, setNarrow] = useState(false);
   // Client-only: a server-rendered overlay from a direct ?view= link never hydrated
   const [mounted, setMounted] = useState(false);
+  // Compare needs side-by-side room; on narrow screens the version tabs already
+  // cover it, so a compare link falls back to the original
+  const view = narrow && asked === "compare" ? "original" : asked;
   const dialogRef = useRef<HTMLDivElement>(null);
   const bodyRef   = useRef<HTMLDivElement>(null);
 
@@ -200,7 +213,7 @@ export default function ReaderOverlay({ edit }: { edit: FeaturedEdit }) {
   if (!view || !mounted) return null;
 
   const byline = ["By " + (edit.author ?? "[original author]"), edit.outlet, edit.date].filter(Boolean).join("  |  ");
-  const effectiveMode = narrow ? "toggle" : mode;
+  const tabs = narrow ? VERSIONS : VIEWS;
 
   return (
     <div
@@ -248,7 +261,7 @@ export default function ReaderOverlay({ edit }: { edit: FeaturedEdit }) {
       >
         {/* ── Title bar ── */}
         <div className="rd-pad" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", padding: "16px 28px", borderBottom: RULE, flexShrink: 0 }}>
-          <span style={{ ...label, color: "rgba(255,255,255,0.70)" }}>{TITLES[view]}</span>
+          <span style={{ ...label, color: view === "compare" ? "rgba(255,255,255,0.70)" : ACCENT[view] }}>{TITLES[view]}</span>
           <button className="rd-close" onClick={close} aria-label="Close" style={{
             fontFamily: MONO, fontSize: "18px", lineHeight: 1, color: "rgba(255,255,255,0.55)",
             background: "none", border: "none", padding: "2px 4px", transition: "color 0.15s",
@@ -259,7 +272,7 @@ export default function ReaderOverlay({ edit }: { edit: FeaturedEdit }) {
 
         {/* ── View tabs ── */}
         <div className="rd-pad" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "12px 28px", padding: "14px 28px", borderBottom: RULE, flexShrink: 0 }}>
-          {VIEWS.map(v => (
+          {tabs.map(v => (
             <button
               key={v}
               onClick={() => router.replace(`${pathname}?view=${v}`, { scroll: false })}
@@ -268,7 +281,7 @@ export default function ReaderOverlay({ edit }: { edit: FeaturedEdit }) {
                 color:         view === v ? "#fff" : "rgba(255,255,255,0.28)",
                 background:    "none",
                 border:        "none",
-                borderBottom:  view === v ? "1px solid #fff" : "1px solid transparent",
+                borderBottom:  view === v ? `1px solid ${ACCENT[v]}` : "1px solid transparent",
                 paddingBottom: "4px",
                 transition:    "color 0.2s",
               }}
@@ -276,7 +289,7 @@ export default function ReaderOverlay({ edit }: { edit: FeaturedEdit }) {
               {NAMES[v]}
             </button>
           ))}
-          {view === "compare" && !narrow && (
+          {view === "compare" && (
             <div style={{ marginLeft: "auto", display: "flex", gap: "20px" }}>
               <Bracket active={mode === "side"}   onClick={() => setMode("side")}>side by side</Bracket>
               <Bracket active={mode === "toggle"} onClick={() => setMode("toggle")}>toggle view</Bracket>
@@ -287,8 +300,8 @@ export default function ReaderOverlay({ edit }: { edit: FeaturedEdit }) {
         {/* ── Body ── */}
         <div ref={bodyRef} className="rd-pad" style={{ flex: 1, overflowY: "auto", minHeight: 0, padding: "40px 56px 64px" }}>
           {view === "compare"
-            ? <Compare edit={edit} mode={effectiveMode} />
-            : <Article version={edit[view]} name={NAMES[view]} byline={byline} />}
+            ? <Compare edit={edit} mode={mode} />
+            : <Article version={edit[view]} name={NAMES[view]} byline={byline} accent={ACCENT[view]} />}
         </div>
       </div>
     </div>

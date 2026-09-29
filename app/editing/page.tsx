@@ -125,6 +125,9 @@ export default function Editing() {
         .ed-panel em { font-style: italic; }
         .ed-art { display: flex; justify-content: center; overflow: hidden; }
 
+        @media (max-width: 1100px) {
+          .rd-wide-only { display: none; }
+        }
         @media (max-width: 900px) {
           .ed-grid { grid-template-columns: 1fr; }
         }
@@ -193,7 +196,7 @@ export default function Editing() {
                 <ReaderLink view="original">original</ReaderLink>
                 <ReaderLink view="soft">soft edit</ReaderLink>
                 <ReaderLink view="hard">hard edit</ReaderLink>
-                <ReaderLink view="compare">compare versions</ReaderLink>
+                <ReaderLink view="compare" wideOnly>compare versions</ReaderLink>
               </div>
             </div>
           </section>
