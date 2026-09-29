@@ -32,7 +32,7 @@ const EDITS: Edit[] = [
   {
     title:   "focus",
     before: { label: "before (opening)", body: <>&ldquo;&hellip;Its considerate lyrics and use of instruments never fail to amaze me. Thinking nothing could ever top listening to this album, I discovered listening AND seeing this album is 10 times better.&rdquo;</> },
-    after:  { label: "after (opening)",  body: <>&ldquo;&hellip;After my first listen, I believed the sonic experience this record curates could never be topped&ndash;until I discovered the Pink Floyd audio-visual laser show at the Houston Museum of Natural Science.&rdquo;</> },
+    after:  { label: "after (opening)",  body: <>&ldquo;&hellip;From my first listen, I felt like the experience this record creates could never be topped&mdash;until I discovered the Pink Floyd audio-visual laser show at the Houston Museum of Natural Science.&rdquo;</> },
     note: <>The original introduction established the writer&rsquo;s enthusiasm for the album but delayed the article&rsquo;s central subject. I condensed the background and restructured the paragraph to transition directly into the planetarium experience.</>,
   },
   {
@@ -131,6 +131,7 @@ export default function Editing() {
         @media (max-width: 768px) {
           .ed-hero, .ed-featured { grid-template-columns: 1fr; gap: 28px; }
           .ed-hero .ed-art { order: -1; }
+          .ed-featured .ed-art { order: 1; }   /* text between the moon and the planetarium */
           .ed-exp { grid-template-columns: 1fr; }
           .ed-exp > div + div { border-left: none; border-top: ${RULE}; }
           .ed-exp > div { padding: 16px 0 !important; }
@@ -189,8 +190,9 @@ export default function Editing() {
                 A retrospective edit of a music feature originally written by a KTSW 89.9 contributor. The edit focused on restructuring the piece, strengthening its introduction and transitions, improving clarity and specificity, and preserving the writer&rsquo;s enthusiastic first-person voice.
               </p>
               <div style={{ display: "flex", flexWrap: "wrap", gap: "28px" }}>
-                <ReaderLink view="original">view original</ReaderLink>
-                <ReaderLink view="edited">view full edit</ReaderLink>
+                <ReaderLink view="original">original</ReaderLink>
+                <ReaderLink view="soft">soft edit</ReaderLink>
+                <ReaderLink view="hard">hard edit</ReaderLink>
                 <ReaderLink view="compare">compare versions</ReaderLink>
               </div>
             </div>

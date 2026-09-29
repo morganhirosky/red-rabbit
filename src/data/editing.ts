@@ -11,7 +11,8 @@ export type FeaturedEdit = {
   outlet:      string;
   date?:       string;
   original:    ArticleVersion;
-  edited:      ArticleVersion;
+  soft:        ArticleVersion;   // light-touch edit
+  hard:        ArticleVersion;   // full structural edit
 };
 
 export const FEATURED_EDIT: FeaturedEdit = {
@@ -29,15 +30,27 @@ export const FEATURED_EDIT: FeaturedEdit = {
     ],
   },
 
-  edited: {
+  soft: {
     title: "The Dark Side of the Moon: Come to Life",
     italicize: ["The Dark Side of the Moon"],
     paragraphs: [
-      "Pink Floyd's The Dark Side of the Moon is a revolutionary album composed of ten trippy tracks that helped shape and define psychedelic rock in the 1970s. Known for being ahead of its time, thoughtful lyrics and kaleidoscopic instrumentation are hallmarks of the project, and they are nothing short of amazing. After my first listen, I believed the sonic experience this record curates could never be topped–until I discovered the Pink Floyd audio-visual laser show at the Houston Museum of Natural Science.",
-      "Seated inside the Burke Baker Planetarium, you’re able to listen to The Dark Side of the Moon from start to finish while specially made visuals play out on the full-dome ceiling overhead. The show is imaginative, immersive, and absolutely genius. Since many songs feature crazy synthesizers, the colorful laser projections easily match the passionate energy of the album, and the seamless transitions between each track makes the record sound like one giant song.",
-      "The majority of what you see is remarkably surreal and hard to explain, largely characterized by shapes and objects being resculpted, squished, or expanded in synchronization with every word and instrument. The experience brings to life the colorful abstractions you might envision in your mind while listening to tracks like “Time” or “The Great Gig in the Sky”.",
-      "The seventh track, “Us and Them”, is especially breathtaking. Its imagery is noticeably softer with less saturated hues, and in keeping with the song’s title, it depicts two blank faces staring at one another as they float through space. The graphics also relate directly to the lyrics. For example, when you hear the words, “Up and down,” the screen literally turns upside down, giving the illusion that the planetarium is flipping in tandem with the lyrics. When you hear the line, “...and in the end, it's only round and round,” a pair of wings circle around the moon as it sits on the ocean horizon before a blue and pink sky.",
-      "The Pink Floyd audio-visual laser show at the Burke Baker Planetarium changed the way I hear the music, and now, I hope to see it every time I travel to Houston. From beginning to end, the experience is beautifully insane, and as always, listening to the legendary work that is The Dark Side of the Moon is such a treat.",
+      "Pink Floyd's The Dark Side of the Moon is one of the most revolutionary psychedelic rock albums to come out of the 1970s. Composed of ten trippy tracks that helped define the genre, this record is truly ahead of its time and it never ceases to amaze me. I didn’t think it was possible for this album’s listening experience to get any better–until I discovered the audio-visual experience at the Houston Museum of Natural Science.",
+      "Seated inside the Burke Baker Planetarium, you’re able to listen to The Dark Side of the Moon from start to finish while specially made visuals play out on the full-dome ceiling overhead. The show is absolutely genius. Since many songs feature crazy synthesizers, the colorful laser projections easily match the passionate energy of the album, and the transitions between each track make the record sound like one giant song.",
+      "The majority of what you see is surreal and hard to explain. The experience brings to life the colorful abstractions you might imagine in your mind while listening to “Time” or “The Great Gig in the Sky”–mostly shapes and objects being resculpted, squished, or expanded in perfect synchronization with every word and instrument you hear.",
+      "I personally found the seventh track, “Us and Them,” breathtaking. Its imagery softens into less saturated hues, and in keeping with the song’s title, two blank faces stare at one another as they float through space. The graphics also directly reflect the lyrics. For example, when you hear the words, “Up and down,” it feels like the planetarium is turning as the projection rotates upside down. When you hear the line, “...and in the end, it's only round and round,” a pair of angel wings circles the moon as it sits on the ocean horizon with a blue and pink sky in the background.",
+      "From beginning to end, the experience is beautifully insane. The show changed the way I hear the album. Now, I hope to see it every time I travel to Houston. It is such a treat to listen to the legendary work that is The Dark Side of the Moon in a place as captivating as the Burke Baker Planetarium.",
+    ],
+  },
+
+  hard: {
+    title: "The Dark Side of the Moon: Come to Life",
+    italicize: ["The Dark Side of the Moon"],
+    paragraphs: [
+      "Pink Floyd's The Dark Side of the Moon is a revolutionary album composed of ten trippy tracks that helped define psychedelic rock in the 1970s. The iconic project is hallmarked by existential lyrics and kaleidoscopic instrumentation that remain influential more than half a century after its release. From my first listen, I felt like the experience this record creates could never be topped—until I discovered the Pink Floyd audio-visual laser show at the Houston Museum of Natural Science.",
+      "Seated inside the Burke Baker Planetarium, you’re able to listen to The Dark Side of the Moon from start to finish while specially made visuals play out on the full-dome ceiling overhead. The show is imaginative, immersive, and absolutely genius. Since many songs feature crazy synthesizers, the colorful laser projections easily match the passionate energy of the album, and the seamless transitions between each track make the record sound like one giant song.",
+      "The majority of what you see is remarkably surreal and hard to explain. Largely characterized by shapes and objects being resculpted, squished, or expanded in synchronization with every word and instrument, the experience brings to life the colorful abstractions you might envision in your mind while listening to tracks like “Time” or “The Great Gig in the Sky.”",
+      "The seventh track, “Us and Them,” is especially breathtaking. Its imagery is noticeably softer, rendered in less saturated hues, and in keeping with the song’s title, two blank faces stare at one another as they float through space. The graphics also relate directly to the lyrics. For example, when you hear the words, “Up and down,” the projection rotates upside down, giving the illusion that the planetarium itself is turning. When you hear the line, “...and in the end, it's only round and round,” a pair of angel wings circles the moon as it sits on the ocean horizon beneath a blue and pink sky.",
+      "The Pink Floyd audio-visual laser show at the Burke Baker Planetarium changed the way I hear the album, and now I hope to see it every time I travel to Houston. From beginning to end, the experience is beautifully insane, and as always, listening to the legendary work that is The Dark Side of the Moon is such a treat.",
     ],
   },
 };

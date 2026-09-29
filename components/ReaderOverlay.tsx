@@ -9,13 +9,24 @@ const MONO = '"Courier New", Courier, monospace';
 const SANS = '"Source Sans 3", "Source Sans Pro", sans-serif';
 const RULE = "1px solid rgba(255,255,255,0.08)";
 
-export type ReaderView = "original" | "edited" | "compare";
-const VIEWS: ReaderView[] = ["original", "edited", "compare"];
+type VersionKey = "original" | "soft" | "hard";
+export type ReaderView = VersionKey | "compare";
+const VERSIONS: VersionKey[] = ["original", "soft", "hard"];
+const VIEWS: ReaderView[] = [...VERSIONS, "compare"];
+const NAMES: Record<ReaderView, string> = {
+  original: "original",
+  soft:     "soft edit",
+  hard:     "hard edit",
+  compare:  "compare",
+};
 const TITLES: Record<ReaderView, string> = {
   original: "original article",
-  edited:   "edited article",
+  soft:     "soft edit",
+  hard:     "hard edit",
   compare:  "compare versions",
 };
+// Old links from before the soft edit existed
+const LEGACY: Record<string, ReaderView> = { edited: "hard" };
 
 // True when the overlay was opened by a click on this page, so closing can
 // step back through history instead of stacking a new entry. A direct visit
@@ -65,11 +76,11 @@ function withItalics(text: string, phrases: string[] = []): React.ReactNode {
   );
 }
 
-function Paragraphs({ version, size = 17 }: { version: ArticleVersion; size?: number }) {
+function Paragraphs({ version, name, size = 17 }: { version: ArticleVersion; name: string; size?: number }) {
   if (version.paragraphs.length === 0) {
     return (
       <p style={{ fontFamily: MONO, fontSize: "14px", color: "rgba(255,255,255,0.40)" }}>
-        &gt; edited version coming soon
+        &gt; {name} coming soon
         <span style={{ animation: "blink 1s step-start infinite" }}>_</span>
       </p>
     );
@@ -85,7 +96,7 @@ function Paragraphs({ version, size = 17 }: { version: ArticleVersion; size?: nu
   );
 }
 
-function Article({ version, byline }: { version: ArticleVersion; byline: string }) {
+function Article({ version, name, byline }: { version: ArticleVersion; name: string; byline: string }) {
   return (
     <article style={{ maxWidth: "720px", margin: "0 auto" }}>
       <h2 style={{ fontSize: "clamp(26px, 3vw, 38px)", fontWeight: 300, lineHeight: 1.15, marginBottom: "12px" }}>
@@ -96,33 +107,36 @@ function Article({ version, byline }: { version: ArticleVersion; byline: string 
       <div className="rd-art" style={{ float: "right", margin: "4px 0 16px 28px", border: RULE, padding: "10px 6px" }}>
         <AsciiScene variant="dome" cols={40} rows={18} fontSize="7px" opacity={0.6} />
       </div>
-      <Paragraphs version={version} />
+      <Paragraphs version={version} name={name} />
     </article>
   );
 }
 
+// All three versions: side by side in columns, or one at a time with a switcher
 function Compare({ edit, mode }: { edit: FeaturedEdit; mode: "side" | "toggle" }) {
-  const [shown, setShown] = useState<"original" | "edited">("original");
-
-  const column = (which: "original" | "edited", divider = false) => (
-    <div style={{ minWidth: 0, ...(divider ? { borderLeft: RULE, paddingLeft: "40px" } : { paddingRight: mode === "side" ? "40px" : 0 }) }}>
-      <div style={{ ...label, color: "rgba(255,255,255,0.70)", marginBottom: "20px" }}>{which}</div>
-      <Paragraphs version={edit[which]} size={16} />
-    </div>
-  );
+  const [shown, setShown] = useState<VersionKey>("original");
 
   if (mode === "side") {
-    return <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr" }}>{column("original")}{column("edited", true)}</div>;
+    return (
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)" }}>
+        {VERSIONS.map((v, i) => (
+          <div key={v} style={{ minWidth: 0, padding: "0 28px", ...(i > 0 && { borderLeft: RULE }), ...(i === 0 && { paddingLeft: 0 }), ...(i === 2 && { paddingRight: 0 }) }}>
+            <div style={{ ...label, color: "rgba(255,255,255,0.70)", marginBottom: "20px" }}>{NAMES[v]}</div>
+            <Paragraphs version={edit[v]} name={NAMES[v]} size={15} />
+          </div>
+        ))}
+      </div>
+    );
   }
 
   return (
     <div style={{ maxWidth: "720px", margin: "0 auto" }}>
-      <div style={{ display: "flex", gap: "20px", marginBottom: "28px" }}>
-        {(["original", "edited"] as const).map(v => (
-          <Bracket key={v} active={shown === v} onClick={() => setShown(v)}>{v}</Bracket>
+      <div style={{ display: "flex", flexWrap: "wrap", gap: "20px", marginBottom: "28px" }}>
+        {VERSIONS.map(v => (
+          <Bracket key={v} active={shown === v} onClick={() => setShown(v)}>{NAMES[v]}</Bracket>
         ))}
       </div>
-      <Paragraphs version={edit[shown]} />
+      <Paragraphs version={edit[shown]} name={NAMES[shown]} />
     </div>
   );
 }
@@ -150,7 +164,7 @@ export default function ReaderOverlay({ edit }: { edit: FeaturedEdit }) {
   const pathname = usePathname();
   const params   = useSearchParams();
   const param    = params.get("view");
-  const view     = VIEWS.includes(param as ReaderView) ? (param as ReaderView) : null;
+  const view     = VIEWS.includes(param as ReaderView) ? (param as ReaderView) : param ? LEGACY[param] ?? null : null;
 
   const [mode, setMode]     = useState<"side" | "toggle">("side");
   const [narrow, setNarrow] = useState(false);
@@ -165,7 +179,7 @@ export default function ReaderOverlay({ edit }: { edit: FeaturedEdit }) {
   };
 
   useEffect(() => {
-    const mq = window.matchMedia("(max-width: 768px)");
+    const mq = window.matchMedia("(max-width: 1100px)");
     const sync = () => setNarrow(mq.matches);
     sync();
     setMounted(true);
@@ -244,7 +258,7 @@ export default function ReaderOverlay({ edit }: { edit: FeaturedEdit }) {
         </div>
 
         {/* ── View tabs ── */}
-        <div className="rd-pad" style={{ display: "flex", alignItems: "center", gap: "32px", padding: "14px 28px", borderBottom: RULE, flexShrink: 0 }}>
+        <div className="rd-pad" style={{ display: "flex", flexWrap: "wrap", alignItems: "center", gap: "12px 28px", padding: "14px 28px", borderBottom: RULE, flexShrink: 0 }}>
           {VIEWS.map(v => (
             <button
               key={v}
@@ -259,7 +273,7 @@ export default function ReaderOverlay({ edit }: { edit: FeaturedEdit }) {
                 transition:    "color 0.2s",
               }}
             >
-              {v}
+              {NAMES[v]}
             </button>
           ))}
           {view === "compare" && !narrow && (
@@ -274,7 +288,7 @@ export default function ReaderOverlay({ edit }: { edit: FeaturedEdit }) {
         <div ref={bodyRef} className="rd-pad" style={{ flex: 1, overflowY: "auto", minHeight: 0, padding: "40px 56px 64px" }}>
           {view === "compare"
             ? <Compare edit={edit} mode={effectiveMode} />
-            : <Article version={edit[view]} byline={byline} />}
+            : <Article version={edit[view]} name={NAMES[view]} byline={byline} />}
         </div>
       </div>
     </div>
