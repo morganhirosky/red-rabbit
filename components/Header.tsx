@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 const NAV = [
   { label: "writing",     href: "/writing"     },
   { label: "editing",     href: "/editing"     },
+  { label: "strategy",    href: "/strategy"    },
   { label: "projects",    href: "/projects"    },
   { label: "observatory", href: "/observatory" },
   { label: "contact",     href: "/contact"     },
@@ -14,7 +15,7 @@ const NAV = [
 
 const LIGHT_PAGES: string[] = [];
 const WHITE_PAGES = ["/about"];
-const NO_HEADER_PAGES = ["/writing", "/editing", "/projects", "/contact"];
+const NO_HEADER_PAGES = ["/writing", "/editing", "/strategy", "/projects", "/contact"];
 
 const SANS = '"Source Sans 3", "Source Sans Pro", sans-serif';
 
