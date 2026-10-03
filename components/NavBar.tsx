@@ -30,11 +30,11 @@ export default function NavBar({ activePath, containerStyle }: { activePath: str
         zIndex:         100,
         ...containerStyle,
       }}>
-        {/* Same red and hover as the resume button */}
+        {/* Same hover as the resume button */}
         <Link href="/" style={{
           fontFamily:    SANS,
           fontSize:      "13px",
-          color:         "#ff0055",
+          color:         "#fff",
           opacity:       0.7,
           transition:    "opacity 0.2s",
           textDecoration:"none",

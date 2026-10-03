@@ -51,7 +51,7 @@ export default function Header() {
         <Link href="/" className={pathname === "/" ? "header-name-home" : undefined} style={{
           fontFamily:    SANS,
           fontSize:      "13px",
-          color:         "#ff0055",
+          color:         "#fff",
           opacity:       0.7,
           textDecoration:"none",
           letterSpacing: "0.08em",
