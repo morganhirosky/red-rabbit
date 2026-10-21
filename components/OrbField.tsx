@@ -4,13 +4,14 @@ import { useEffect, useRef, useState } from "react";
 
 // ── Sprite data ───────────────────────────────────────────────────────────────
 
-type Action = 'spin' | 'float' | 'flash' | 'blink' | 'shake';
+type Action = 'spin' | 'float' | 'flash' | 'blink' | 'shake' | 'swing';
 
 const SPRITE_DEFS: { src: string; action: Action; drawH: number; invert?: boolean; stripWhite?: boolean }[] = [
   { src: '/sprites/bunny.png', action: 'spin',  drawH: 70 },
   { src: '/sprites/tooth.png', action: 'shake', drawH: 52 },
   { src: '/sprites/bug.png',   action: 'blink', drawH: 82 },
   { src: '/sprites/apple.png', action: 'float', drawH: 62, stripWhite: true },
+  { src: '/sprites/clock.png', action: 'swing', drawH: 46 },   // fills its file edge to edge, so smaller drawH than the padded sprites
 ];
 
 function stripWhiteBg(img: HTMLImageElement, drawH: number): HTMLCanvasElement {
@@ -486,6 +487,16 @@ export default function OrbField() {
             case 'float':
               ctx.drawImage(f.img, drawX, drawY, f.drawW, f.drawH);
               break;
+
+            case 'swing': {
+              // Pendulum: pivots from the top edge like a hung clock, swinging out and settling
+              const t = 90 - f.timer;
+              const a = Math.sin(t * 0.16) * 0.45 * prog;
+              ctx.translate(drawX + hw, drawY);
+              ctx.rotate(a);
+              ctx.drawImage(f.img, -hw, 0, f.drawW, f.drawH);
+              break;
+            }
           }
         } else {
           if (f.action === 'spin') f.angle = 0;
