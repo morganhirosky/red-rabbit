@@ -138,7 +138,7 @@ export default function WritingArchive() {
 
         {/* ── Left pane: list ── */}
         <div style={{
-          width:        isMobile ? "100%" : "300px",
+          width:        isMobile ? "100%" : "360px",
           flexShrink:   0,
           overflowY:    "auto",
           minHeight:    0,
@@ -167,7 +167,7 @@ export default function WritingArchive() {
                 onMouseLeave={e => { if (!isActive) (e.currentTarget as HTMLElement).style.background = "transparent"; }}
               >
                 <div style={{
-                  fontSize:      "11px",
+                  fontSize:      "12px",
                   letterSpacing: "0.10em",
                   textTransform: "uppercase",
                   color:         isActive ? "rgba(255,255,255,0.40)" : "rgba(255,255,255,0.20)",
@@ -176,7 +176,7 @@ export default function WritingArchive() {
                   {entryKindLabel(entry)}
                 </div>
                 <div style={{
-                  fontSize:   "13px",
+                  fontSize:   "15px",
                   lineHeight: 1.4,
                   color:      isActive ? "#fff" : "rgba(255,255,255,0.65)",
                   fontWeight: isActive ? 300 : 200,
@@ -185,7 +185,7 @@ export default function WritingArchive() {
                 </div>
                 {entryMeta(entry) && (
                   <div style={{
-                    fontSize:      "11px",
+                    fontSize:      "12px",
                     color:         "rgba(255,255,255,0.25)",
                     marginTop:     "6px",
                     letterSpacing: "0.04em",
