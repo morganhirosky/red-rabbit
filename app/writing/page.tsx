@@ -13,7 +13,11 @@ type Entry =
 const allEntries: Entry[] = [
   ...featureWriting.map(d  => ({ kind: "feature" as const, data: d })),
   ...technicalWriting.map((d, i) => ({ kind: "senate" as const, data: d, index: i })),
-].sort((a, b) => a.data.title.localeCompare(b.data.title));
+].sort((a, b) => {
+  // titles starting with a number sort after the alphabetical ones
+  const an = /^\d/.test(a.data.title), bn = /^\d/.test(b.data.title);
+  return an !== bn ? (an ? 1 : -1) : a.data.title.localeCompare(b.data.title);
+});
 
 function entryId(e: Entry)          { return e.kind === "feature" ? e.data.slug : `senate-${e.index}`; }
 function entryTitle(e: Entry)       { return e.data.title; }

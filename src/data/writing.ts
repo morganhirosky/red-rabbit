@@ -166,7 +166,6 @@ export type TechnicalEntry = {
 };
 
 export const technicalWriting: TechnicalEntry[] = [
-  { title: "9-1-1 Day",                                              pdf: "9-1-1 Day.pdf" },
   { title: "African American Museum of Dallas",                      pdf: "African American Museum of Dallas.pdf" },
   { title: "Alma Flores",                                            pdf: "Alma Flores.pdf" },
   { title: "Anthony DeWayne Baker",                                  pdf: "Anthony DeWayne Baker.pdf" },
@@ -245,4 +244,5 @@ export const technicalWriting: TechnicalEntry[] = [
   { title: "Veterans Band of Corpus Christi",                        pdf: "Veterans Band of Corpus Christi.pdf" },
   { title: "Vietnam War",                                            pdf: "Vietnam War.pdf" },
   { title: "World Meditation Day",                                   pdf: "World Meditation Day.pdf" },
+  { title: "9-1-1 Day",                                              pdf: "9-1-1 Day.pdf" },
 ];
