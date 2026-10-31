@@ -27,12 +27,27 @@ function entryIsExternal(e: Entry)  { return e.kind === "feature" ? !!e.data.url
 function entryHref(e: Entry)        { return e.kind === "feature" ? (e.data.url ?? null) : `/senate/${e.data.pdf}`; }
 function entryContent(e: Entry)     { return e.kind === "feature" ? (e.data.content ?? null) : null; }
 function entryDescription(e: Entry) { return e.data.description; }
+function entryTags(e: Entry)        { return e.kind === "senate" ? (e.data.tags ?? []) : []; }
+
+// first tag on each proclamation is the occasion; the rest are subjects
+const tagCounts = new Map<string, number>();
+const occasionTags = new Set<string>();
+technicalWriting.forEach(d => (d.tags ?? []).forEach((t, i) => {
+  tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1);
+  if (i === 0) occasionTags.add(t);
+}));
+const byName = (a: string, b: string) => a.localeCompare(b);
+const OCCASION_TAGS = [...occasionTags].sort(byName);
+const SUBJECT_TAGS  = [...tagCounts.keys()].filter(t => !occasionTags.has(t)).sort(byName);
 
 const SANS  = '"Source Sans 3", "Source Sans Pro", sans-serif';
 const SERIF = '"Times New Roman", Times, serif';
+const ACCENT     = "#ff0055";
+const ACCENT_DIM = "rgba(255,0,85,0.50)";
 
 export default function WritingArchive() {
   const [filter,   setFilter]   = useState<Category>("all");
+  const [tag,      setTag]      = useState<string | null>(null);
   const [selected, setSelected] = useState<Entry | null>(null);
   const [isMobile, setIsMobile] = useState(false);
 
@@ -43,9 +58,10 @@ export default function WritingArchive() {
     return () => window.removeEventListener("resize", check);
   }, []);
 
-  const visible = filter === "all"
+  const visible = (filter === "all"
     ? allEntries
-    : allEntries.filter(e => e.kind === (filter === "senate" ? "senate" : "feature"));
+    : allEntries.filter(e => e.kind === (filter === "senate" ? "senate" : "feature"))
+  ).filter(e => !tag || entryTags(e).includes(tag));
 
   const activeEntry = selected && visible.includes(selected)
     ? selected
@@ -90,8 +106,10 @@ export default function WritingArchive() {
       {/* ── Filter tabs ── */}
       <div style={{
         display:      "flex",
-        gap:          "32px",
-        padding:      "16px 32px",
+        flexWrap:     "wrap",
+        alignItems:   "center",
+        gap:          isMobile ? "12px 24px" : "32px",
+        padding:      isMobile ? "16px 20px" : "16px 32px",
         borderBottom: "1px solid rgba(255,255,255,0.08)",
         flexShrink:   0,
       }}>
@@ -100,7 +118,7 @@ export default function WritingArchive() {
           return (
           <button
             key={cat}
-            onClick={() => setFilter(cat)}
+            onClick={() => { setFilter(cat); if (cat === "feature") setTag(null); }}
             style={{
               fontFamily:    SANS,
               fontSize:      "11px",
@@ -118,6 +136,68 @@ export default function WritingArchive() {
             {label}
           </button>
         );})}
+        {filter !== "feature" && (
+          <label style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+            <select
+              aria-label="Filter proclamations by tag"
+              value={tag ?? ""}
+              onChange={e => setTag(e.target.value || null)}
+              style={{
+                fontFamily:    SANS,
+                fontSize:      "11px",
+                letterSpacing: "0.12em",
+                textTransform: "uppercase",
+                color:         tag ? ACCENT : ACCENT_DIM,
+                background:    "#000",
+                colorScheme:   "dark",
+                border:        "none",
+                borderBottom:  tag ? `1px solid ${ACCENT}` : "1px solid rgba(255,0,85,0.25)",
+                borderRadius:  0,
+                padding:       "0 20px 4px 0",
+                appearance:    "none",
+                WebkitAppearance: "none",
+                cursor:        "default",
+                outline:       "none",
+              }}
+            >
+              <option value="">tag: any</option>
+              <optgroup label="occasion">
+                {OCCASION_TAGS.map(t => <option key={t} value={t}>{t.toLowerCase()} ({tagCounts.get(t)})</option>)}
+              </optgroup>
+              <optgroup label="subject">
+                {SUBJECT_TAGS.map(t => <option key={t} value={t}>{t.toLowerCase()} ({tagCounts.get(t)})</option>)}
+              </optgroup>
+            </select>
+            <span aria-hidden style={{
+              position:      "absolute",
+              right:         0,
+              top:           "50%",
+              transform:     "translateY(-65%)",
+              fontSize:      "13px",
+              color:         tag ? ACCENT : ACCENT_DIM,
+              pointerEvents: "none",
+            }}>▾</span>
+          </label>
+        )}
+        {tag && (
+          <button
+            onClick={() => setTag(null)}
+            aria-label="Clear tag filter"
+            style={{
+              fontFamily:    SANS,
+              fontSize:      "11px",
+              letterSpacing: "0.08em",
+              color:         ACCENT,
+              background:    "none",
+              border:        "none",
+              padding:       0,
+              marginLeft:    "-20px",
+              cursor:        "default",
+            }}
+          >
+            ×
+          </button>
+        )}
         <span style={{
           marginLeft:    "auto",
           fontSize:      "11px",
@@ -183,7 +263,7 @@ export default function WritingArchive() {
                 }}>
                   {entryTitle(entry)}
                 </div>
-                {entryMeta(entry) && (
+                {entry.kind !== "senate" && entryMeta(entry) && (
                   <div style={{
                     fontSize:      "12px",
                     color:         "rgba(255,255,255,0.25)",
@@ -191,6 +271,32 @@ export default function WritingArchive() {
                     letterSpacing: "0.04em",
                   }}>
                     {entryMeta(entry)}
+                  </div>
+                )}
+                {entryTags(entry).length > 0 && (
+                  <div style={{ display: "flex", flexWrap: "wrap", gap: "4px 10px", marginTop: "6px" }}>
+                    {entryTags(entry).map(t => (
+                      <button
+                        key={t}
+                        onClick={ev => { ev.stopPropagation(); setTag(tag === t ? null : t); }}
+                        style={{
+                          fontFamily:    SANS,
+                          fontSize:      "11.5px",
+                          letterSpacing: "0.08em",
+                          textTransform: "lowercase",
+                          color:         tag === t ? "#fff" : isActive ? "rgba(255,255,255,0.40)" : "rgba(255,255,255,0.22)",
+                          background:    "none",
+                          border:        "none",
+                          padding:       0,
+                          cursor:        "default",
+                          transition:    "color 0.15s",
+                        }}
+                        onMouseEnter={ev => { if (tag !== t) ev.currentTarget.style.color = "rgba(255,255,255,0.70)"; }}
+                        onMouseLeave={ev => { if (tag !== t) ev.currentTarget.style.color = isActive ? "rgba(255,255,255,0.40)" : "rgba(255,255,255,0.22)"; }}
+                      >
+                        #{t}
+                      </button>
+                    ))}
                   </div>
                 )}
               </div>
